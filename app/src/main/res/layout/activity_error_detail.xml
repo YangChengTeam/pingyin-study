@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <yc.com.pinyin_study.base.widget.CommonToolBar
+        android:id="@+id/commonToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray_ddd" />
+
+    <yc.com.pinyin_study.base.widget.StateView
+        android:id="@+id/stateView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_edece5" />
+
+    <yc.com.pinyin_study.study.widget.CommonScrollView
+        android:id="@+id/commonScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/t10dp"
+        android:paddingRight="@dimen/t10dp">
+
+        <yc.com.pinyin_study.base.widget.CommonWebView
+            android:id="@+id/commonWebView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </yc.com.pinyin_study.study.widget.CommonScrollView>
+
+</LinearLayout>
