@@ -53,7 +53,7 @@ public class BasePayAdapter extends BaseQuickAdapter<GoodInfo, BaseViewHolder> {
     private void setIvState(ImageView imageView, LinearLayout layout, int position, GoodInfo item) {
         int goodId = Integer.parseInt(item.getId());
 
-        if (UserInfoHelper.isSuperVip()) {
+        if (UserInfoHelper.isPhonogramVip()) {
             imageView.setImageResource(R.mipmap.pay_selected);
             layout.setVisibility(View.GONE);
             imageView.setTag(true);
@@ -61,51 +61,51 @@ public class BasePayAdapter extends BaseQuickAdapter<GoodInfo, BaseViewHolder> {
         }
 
 
-        if (UserInfoHelper.isPhonogramOrPhonicsVip() ) {
-            imageView.setImageResource(R.mipmap.vip_info_unselect);
-            if (goodId == Config.SUPER_VIP) {
-                imageView.setImageResource(R.mipmap.vip_info_selected);
-            }
-            layout.setVisibility(View.VISIBLE);
-            imageView.setTag(false);
-            if (goodId == Config.PHONICS_VIP || goodId == Config.PHONOGRAM_VIP || goodId == Config.PHONOGRAMORPHONICS_VIP) {
-                imageView.setImageResource(R.mipmap.pay_selected);
-                layout.setVisibility(View.GONE);
-                imageView.setTag(true);
-            }
-            return;
-        }
-
-        if (UserInfoHelper.isPhonicsVip()) {
-            imageView.setImageResource(R.mipmap.vip_info_unselect);
-            if (goodId == Config.PHONOGRAM_VIP) {
-                imageView.setImageResource(R.mipmap.vip_info_selected);
-            }
-            imageView.setTag(false);
-            layout.setVisibility(View.VISIBLE);
-            if (goodId == Config.PHONICS_VIP) {
-                imageView.setImageResource(R.mipmap.pay_selected);
-                layout.setVisibility(View.GONE);
-                imageView.setTag(true);
-            }
-            return;
-        }
-
-        if (UserInfoHelper.isPhonogramVip()) {
-            imageView.setImageResource(R.mipmap.vip_info_unselect);
-            if (goodId == Config.PHONICS_VIP) {
-                imageView.setImageResource(R.mipmap.vip_info_selected);
-            }
-            imageView.setTag(false);
-            layout.setVisibility(View.VISIBLE);
-            if (goodId == Config.PHONOGRAM_VIP) {
-                imageView.setImageResource(R.mipmap.pay_selected);
-                layout.setVisibility(View.GONE);
-                imageView.setTag(true);
-            }
-            return;
-
-        }
+//        if (UserInfoHelper.isPhonogramOrPhonicsVip() ) {
+//            imageView.setImageResource(R.mipmap.vip_info_unselect);
+//            if (goodId == Config.SUPER_VIP) {
+//                imageView.setImageResource(R.mipmap.vip_info_selected);
+//            }
+//            layout.setVisibility(View.VISIBLE);
+//            imageView.setTag(false);
+//            if (goodId == Config.PHONICS_VIP || goodId == Config.PHONOGRAM_VIP || goodId == Config.PHONOGRAMORPHONICS_VIP) {
+//                imageView.setImageResource(R.mipmap.pay_selected);
+//                layout.setVisibility(View.GONE);
+//                imageView.setTag(true);
+//            }
+//            return;
+//        }
+//
+//        if (UserInfoHelper.isPhonicsVip()) {
+//            imageView.setImageResource(R.mipmap.vip_info_unselect);
+//            if (goodId == Config.PHONOGRAM_VIP) {
+//                imageView.setImageResource(R.mipmap.vip_info_selected);
+//            }
+//            imageView.setTag(false);
+//            layout.setVisibility(View.VISIBLE);
+//            if (goodId == Config.PHONICS_VIP) {
+//                imageView.setImageResource(R.mipmap.pay_selected);
+//                layout.setVisibility(View.GONE);
+//                imageView.setTag(true);
+//            }
+//            return;
+//        }
+//
+//        if (UserInfoHelper.isPhonogramVip()) {
+//            imageView.setImageResource(R.mipmap.vip_info_unselect);
+//            if (goodId == Config.PHONICS_VIP) {
+//                imageView.setImageResource(R.mipmap.vip_info_selected);
+//            }
+//            imageView.setTag(false);
+//            layout.setVisibility(View.VISIBLE);
+//            if (goodId == Config.PHONOGRAM_VIP) {
+//                imageView.setImageResource(R.mipmap.pay_selected);
+//                layout.setVisibility(View.GONE);
+//                imageView.setTag(true);
+//            }
+//            return;
+//
+//        }
 
         if (position == 0) {
             imageView.setImageResource(R.mipmap.vip_info_selected);

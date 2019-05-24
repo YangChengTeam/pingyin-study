@@ -33,8 +33,10 @@ import yc.com.pinyin_study.base.constant.BusAction;
 import yc.com.pinyin_study.base.constant.Config;
 import yc.com.pinyin_study.base.widget.MainToolBar;
 import yc.com.pinyin_study.base.widget.StateView;
+import yc.com.pinyin_study.category.activity.WeiKeDetailActivity;
 import yc.com.pinyin_study.category.activity.WeikeUnitActivity;
 import yc.com.pinyin_study.category.adapter.CategoryMainAdapter;
+import yc.com.pinyin_study.category.adapter.WeiKeInfoItemAdapter;
 import yc.com.pinyin_study.category.contract.CategoryMainContract;
 import yc.com.pinyin_study.category.model.domain.WeiKeCategory;
 import yc.com.pinyin_study.category.presenter.CategoryMainPresenter;
@@ -60,7 +62,7 @@ public class CategoryFragment extends BaseFragment<CategoryMainPresenter> implem
     FrameLayout topContainer;
 
 
-    private CategoryMainAdapter categoryMainAdapter;
+    private WeiKeInfoItemAdapter categoryMainAdapter;
     private int page = 1;
 
     private int PAGE_SIZE = 20;
@@ -88,7 +90,7 @@ public class CategoryFragment extends BaseFragment<CategoryMainPresenter> implem
         categoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         categoryRecyclerView.setHasFixedSize(true);
 
-        categoryMainAdapter = new CategoryMainAdapter(null);
+        categoryMainAdapter = new WeiKeInfoItemAdapter(null);
 
         categoryRecyclerView.setAdapter(categoryMainAdapter);
 
@@ -117,9 +119,14 @@ public class CategoryFragment extends BaseFragment<CategoryMainPresenter> implem
         categoryMainAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(getActivity(), WeikeUnitActivity.class);
-                intent.putExtra("category_id", categoryMainAdapter.getItem(position).getId());
+//                Intent intent = new Intent(getActivity(), WeikeUnitActivity.class);
+//                intent.putExtra("category_id", categoryMainAdapter.getItem(position).getId());
+//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), WeiKeDetailActivity.class);
+
+                intent.putExtra("pid", categoryMainAdapter.getItem(position).getId());
                 startActivity(intent);
+
             }
         });
 
@@ -194,7 +201,8 @@ public class CategoryFragment extends BaseFragment<CategoryMainPresenter> implem
     }
 
     private void getData(boolean isRefresh) {
-        mPresenter.getCategoryInfos(page, PAGE_SIZE, "0", isRefresh);
+//        mPresenter.getCategoryInfos(page, PAGE_SIZE, "0", isRefresh);
+        mPresenter.getSpellInfos(page, PAGE_SIZE, isRefresh);
     }
 
 

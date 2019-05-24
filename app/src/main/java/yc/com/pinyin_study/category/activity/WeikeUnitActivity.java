@@ -43,7 +43,7 @@ public class WeikeUnitActivity extends BaseActivity<CategoryMainPresenter> imple
 
     private WeiKeInfoItemAdapter mWeiKeInfoItemAdapter;
 
-    private String type = "";
+
 
     private String pid = "";
 
@@ -67,7 +67,7 @@ public class WeikeUnitActivity extends BaseActivity<CategoryMainPresenter> imple
         mainToolbar.setRightContainerVisible(false);
 
         categoryRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        mWeiKeInfoItemAdapter = new WeiKeInfoItemAdapter(null, type);
+        mWeiKeInfoItemAdapter = new WeiKeInfoItemAdapter(null);
         categoryRecyclerView.setAdapter(mWeiKeInfoItemAdapter);
         categoryRecyclerView.addItemDecoration(new ItemDecorationHelper(this, 6, 6));
         swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.app_selected_color));

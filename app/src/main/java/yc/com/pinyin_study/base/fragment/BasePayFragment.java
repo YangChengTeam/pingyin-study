@@ -312,7 +312,7 @@ public class BasePayFragment extends BaseDialogFragment<BasePayPresenter> implem
         GoodInfo goodInfo = null;
         if (goodInfoList != null && goodInfoList.size() > 0) {
             goodInfo = goodInfoList.get(getPosition());
-            if (UserInfoHelper.isSuperVip()) {
+            if (UserInfoHelper.isPhonogramVip()) {
                 goodInfo = null;
             }
 
@@ -323,12 +323,12 @@ public class BasePayFragment extends BaseDialogFragment<BasePayPresenter> implem
 
     private int getPosition() {
         int pos = 0;
-        if (UserInfoHelper.isPhonogramVip()) {
-            pos = 1;
-        }
-        if (UserInfoHelper.isPhonicsVip() && UserInfoHelper.isPhonogramVip() || UserInfoHelper.isPhonogramOrPhonicsVip()) {
-            pos = 3;
-        }
+//        if (UserInfoHelper.isPhonogramVip()) {
+//            pos = 1;
+//        }
+//        if (UserInfoHelper.isPhonicsVip() && UserInfoHelper.isPhonogramVip() || UserInfoHelper.isPhonogramOrPhonicsVip()) {
+//            pos = 3;
+//        }
 
         return pos;
     }

@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">汉语拼音学习点读</string>
+    <string name="app_name">汉语拼音学习</string>
     <string name="main_phonetic">首页</string>
     <string name="main_study">拼音</string>
     <string name="main_category">微课</string>
-    <string name="main_1vs1">1对1</string>
+    <string name="main_1vs1">发现</string>
     <string name="service_phone">客服电话：</string>
     <string name="service_wechat">客服微信：</string>
     <string name="study_hint">每天十分钟，十天学会拼音</string>
@@ -61,4 +61,7 @@
     <string name="playback">回放</string>
     <string name="diandu">课本点读</string>
     <string name="main_error">易错点</string>
+    <string name="wx">微信</string>
+    <string name="wx_circle">朋友圈</string>
+    <string name="share_cancel">取消分享</string>
 </resources>

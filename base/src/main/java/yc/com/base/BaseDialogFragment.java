@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,7 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
             layoutParams.width = (int) (RxDeviceTool.getScreenWidth(getActivity()) * getWidth());
             layoutParams.height = getHeight();
             window.setAttributes(layoutParams);
+            window.setGravity(getGravity());
         }
 
     }
@@ -111,5 +113,9 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
             mPresenter.unsubscribe();
         RxBus.get().unregister(this);
         Runtime.getRuntime().gc();
+    }
+
+    public int getGravity() {
+        return Gravity.CENTER;
     }
 }

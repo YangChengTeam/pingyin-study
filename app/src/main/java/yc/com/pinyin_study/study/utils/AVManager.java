@@ -277,7 +277,7 @@ public class AVManager implements OnAVManagerListener {
         ret = mIat.startListening(mRecognizerListener);
 
         if (ret != ErrorCode.SUCCESS) {
-            ToastUtils.showLong("听写失败,错误码：" + ret);
+//            ToastUtils.showLong("听写失败,错误码：" + ret);
         } else {
             //ToastUtils.showLong("开始");
         }

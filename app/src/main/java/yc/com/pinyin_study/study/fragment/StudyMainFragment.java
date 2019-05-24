@@ -22,10 +22,11 @@ import com.app.hubert.guide.listener.OnLayoutInflatedListener;
 import com.app.hubert.guide.model.GuidePage;
 import com.app.hubert.guide.model.HighLight;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jakewharton.rxbinding.view.RxView;
 import com.kk.securityhttp.net.contains.HttpConfig;
-import com.kk.utils.LogUtil;
 import com.kk.utils.ScreenUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.xinqu.videoplayer.XinQuVideoPlayer;
@@ -33,8 +34,6 @@ import com.xinqu.videoplayer.XinQuVideoPlayerStandard;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -131,6 +130,8 @@ public class StudyMainFragment extends BaseFragment<StudyPresenter> implements S
     LinearLayout llStudyTotalContainer;
     @BindView(R.id.ll_top_tint)
     LinearLayout llTopTint;
+    @BindView(R.id.iv_perception_pic)
+    ImageView ivPerceptionPic;
 
 
     private int playStep = 1;//播放步骤
@@ -206,6 +207,8 @@ public class StudyMainFragment extends BaseFragment<StudyPresenter> implements S
         Glide.with(getActivity()).asBitmap().load(studyInfo.getImage()).into(ivPronounceIcon);
         Glide.with(getActivity()).asGif().load(R.mipmap.study_essentials_guide).into(ivEssentialsExample);
         Glide.with(getActivity()).asBitmap().load(studyInfo.getImg()).into(ivPic);
+        Glide.with(getActivity()).asBitmap().load(studyInfo.getStrokes_img()).
+                apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.DATA)).thumbnail(0.1f).into(ivPerceptionPic);
         tvEssentialsDesp.setText(studyInfo.getDesp());
         mediaPlayerView.setPath(studyInfo.getDesp_audio());
         tvPerceptionPinyin.setText(studyInfo.getName());

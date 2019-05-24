@@ -75,4 +75,9 @@ public interface UrlConfig {
      * 易错知识点详情
      */
     String error_detail_info = (isDebug ? debug_url : base_url) + "pinyin/detail";
+
+    /**
+     * 微课列表
+     */
+    String weike_list = (isDebug ? debug_url : base_url) + "weike/weike_list";
 }

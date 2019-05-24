@@ -67,4 +67,41 @@ public class CategoryMainPresenter extends BasePresenter<CategoryMainEngine, Cat
 
         mSubscriptions.add(subscription);
     }
+
+    public void getSpellInfos(final int page, int page_size, boolean isRefresh) {
+        if (page == 1 && !isRefresh)
+            mView.showLoading();
+        Subscription subscription = mEngine.getSpellInfos(page, page_size).subscribe(new Subscriber<ResultInfo<WeiKeCategoryWrapper>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                if (page == 1)
+                    mView.hide();
+            }
+
+            @Override
+            public void onNext(ResultInfo<WeiKeCategoryWrapper> weiKeCategoryWrapperResultInfo) {
+                if (weiKeCategoryWrapperResultInfo != null) {
+                    if (weiKeCategoryWrapperResultInfo.code == HttpConfig.STATUS_OK && weiKeCategoryWrapperResultInfo.data != null) {
+                        mView.hide();
+                        List<WeiKeCategory> weiKeCategoryList = weiKeCategoryWrapperResultInfo.data.getList();
+                        mView.showWeiKeCategoryInfos(weiKeCategoryList);
+
+                    } else {
+                        if (page == 1)
+                            mView.showNoData();
+                    }
+                } else {
+                    if (page == 1)
+                        mView.showNoNet();
+                }
+            }
+        });
+
+        mSubscriptions.add(subscription);
+    }
 }

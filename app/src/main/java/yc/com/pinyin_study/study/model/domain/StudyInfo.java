@@ -32,6 +32,8 @@ public class StudyInfo {
     private String image;
     private String hanzi;
 
+    private String strokes_img;
+
     public String getId() {
         return id;
     }
@@ -126,5 +128,13 @@ public class StudyInfo {
 
     public void setHanzi(String hanzi) {
         this.hanzi = hanzi;
+    }
+
+    public String getStrokes_img() {
+        return strokes_img;
+    }
+
+    public void setStrokes_img(String strokes_img) {
+        this.strokes_img = strokes_img;
     }
 }

@@ -37,4 +37,13 @@ public class CategoryMainEngine extends BaseEngine {
         return HttpCoreEngin.get(mContext).rxpost(UrlConfig.category_url, new TypeReference<ResultInfo<WeiKeCategoryWrapper>>() {
         }.getType(), params, true, true, true);
     }
+
+    public Observable<ResultInfo<WeiKeCategoryWrapper>> getSpellInfos(int page, int page_size) {
+        Map<String, String> params = new HashMap<>();
+        params.put("page", page + "");
+
+        params.put("page_size", page_size + "");
+        return HttpCoreEngin.get(mContext).rxpost(UrlConfig.weike_list, new TypeReference<ResultInfo<WeiKeCategoryWrapper>>() {
+        }.getType(), params, true, true, true);
+    }
 }

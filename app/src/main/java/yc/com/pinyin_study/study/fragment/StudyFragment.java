@@ -29,10 +29,12 @@ import butterknife.BindView;
 import rx.functions.Action1;
 import yc.com.base.BaseActivity;
 import yc.com.base.BaseFragment;
+import yc.com.blankj.utilcode.util.SPUtils;
 import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.base.activity.WebActivity;
 import yc.com.pinyin_study.base.constant.BusAction;
 import yc.com.pinyin_study.base.constant.Config;
+import yc.com.pinyin_study.base.constant.SpConstant;
 import yc.com.pinyin_study.base.fragment.BasePayFragment;
 import yc.com.pinyin_study.base.utils.UIUtils;
 import yc.com.pinyin_study.base.widget.MainToolBar;
@@ -91,6 +93,13 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
     public void init() {
         mPresenter = new StudyPresenter(getActivity(), this);
 
+        totalPages = SPUtils.getInstance().getInt(SpConstant.STUDY_PAGES, 0);
+        if (totalPages == 0) {
+            mPresenter.getStudyPages();
+        } else {
+            initViewpager(totalPages);
+        }
+
         initListener();
         mainToolbar.init(((BaseActivity) getActivity()), WebActivity.class);
         mainToolbar.setTvRightTitleAndIcon(getString(R.string.diandu), R.mipmap.diandu);
@@ -101,11 +110,10 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
         observerManager = ObserverManager.getInstance();
         observerManager.addMyObserver(this);
 
-        mPresenter.getStudyPages();
+
         if (UserInfoHelper.isCloseAdv()) {
             bottomContainer.setVisibility(View.GONE);
         } else {
-
             AdvDispatchManager.getManager().init(getActivity(), AdvType.BANNER, bottomContainer, null, Config.TENCENT_ADV, Config.BANNER_BOTTOM_ADV, this);
         }
 
@@ -201,6 +209,10 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
     @Override
     public void showStudyPages(Integer data) {
         totalPages = data;
+        initViewpager(data);
+    }
+
+    private void initViewpager(Integer data) {
         for (int i = 0; i < data; i++) {
             StudyMainFragment studyMainFragment = new StudyMainFragment();
             studyMainFragment.setPos(i);
@@ -352,7 +364,7 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
             }
     )
     public void paySuccess(String info) {
-        if (bottomContainer.getVisibility()==View.VISIBLE){
+        if (bottomContainer.getVisibility() == View.VISIBLE) {
             bottomContainer.setVisibility(View.GONE);
         }
     }

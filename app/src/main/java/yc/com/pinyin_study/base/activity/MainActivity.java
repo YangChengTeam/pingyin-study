@@ -1,14 +1,17 @@
 package yc.com.pinyin_study.base.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
+import com.kk.share.UMShareImpl;
 import com.kk.utils.LogUtil;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.UMShareAPI;
 import com.vondear.rxtools.RxPermissionsTool;
 import com.xinqu.videoplayer.XinQuVideoPlayer;
 
@@ -108,14 +111,14 @@ public class MainActivity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    MobclickAgent.onEvent(MainActivity.this,"first_page","首页");
+                    MobclickAgent.onEvent(MainActivity.this, "first_page", "首页");
                     viewPager.setCurrentItem(0);
                     return true;
                 case R.id.navigation_study:
                     viewPager.setCurrentItem(1);
                     return true;
                 case R.id.navigation_category:
-                    MobclickAgent.onEvent(MainActivity.this,"mini_class","微课");
+                    MobclickAgent.onEvent(MainActivity.this, "mini_class", "微课");
                     viewPager.setCurrentItem(2);
                     return true;
                 case R.id.navigation_error:
@@ -185,5 +188,11 @@ public class MainActivity extends BaseActivity {
 
         }
         AdvDispatchManager.getManager().onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, requestCode, data);
     }
 }

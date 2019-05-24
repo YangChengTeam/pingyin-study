@@ -20,18 +20,18 @@ import yc.com.pinyin_study.category.model.domain.WeiKeCategory;
  */
 
 public class WeiKeInfoItemAdapter extends BaseQuickAdapter<WeiKeCategory, BaseViewHolder> {
-    private String mType;
 
-    public WeiKeInfoItemAdapter(List<WeiKeCategory> data, String type) {
+
+    public WeiKeInfoItemAdapter(List<WeiKeCategory> data) {
         super(R.layout.weike_info_item, data);
-        this.mType = type;
+
     }
 
     @Override
     protected void convert(BaseViewHolder helper, WeiKeCategory item) {
 
         helper.setText(R.id.tv_title, item.getTitle())
-                .setText(R.id.tv_unit_count, Html.fromHtml("<font color='#FB4C30'>" + item.getUserNum() + "</font>人已购买"));
+                .setText(R.id.tv_unit_count, Html.fromHtml("<font color='#FB4C30'>" + item.getUserNum() + "</font>人已学习"));
         Glide.with(mContext).asBitmap().apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.DATA)).load(item.getImg()).into((ImageView) helper.getView(R.id.iv_icon));
 
 

@@ -10,7 +10,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -31,7 +30,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.functions.Action1;
 import yc.com.base.BaseActivity;
-import yc.com.base.StatusBarUtil;
 import yc.com.blankj.utilcode.util.LogUtils;
 import yc.com.blankj.utilcode.util.NetworkUtils;
 import yc.com.blankj.utilcode.util.SizeUtils;
@@ -51,47 +49,31 @@ import yc.com.pinyin_study.index.utils.UserInfoHelper;
  */
 
 public class WeiKeDetailActivity extends BaseActivity<WeiKeDetailPresenter> implements WeiKeDetailContract.View {
-
     private static final String TAG = "NewsDetailActivity";
 
-    @BindView(R.id.layout_video)
-    FrameLayout layoutVideo;
     @BindView(R.id.tv_learn_count)
     TextView mLearnCountTextView;
-    @BindView(R.id.layout_learn_count)
-    LinearLayout layoutLearnCount;
-    @BindView(R.id.line_view)
-    View lineView;
-    @BindView(R.id.tv_title)
-    TextView mTextViewTitle;
+
     @BindView(R.id.tv_now_price)
     TextView mNowPriceTextView;
     @BindView(R.id.tv_old_price)
     TextView mOldPriceTextView;
-    @BindView(R.id.layout_title_price)
-    LinearLayout layoutTitlePrice;
-    @BindView(R.id.layout_content)
-    LinearLayout layoutContent;
+
     @BindView(R.id.webView)
     WebView webView;
-    @BindView(R.id.nestedScrollView)
-    ScrollView nestedScrollView;
     @BindView(R.id.layout_buy_now)
     LinearLayout mBuyNowLayout;
     @BindView(R.id.ll_rootView)
     RelativeLayout llRootView;
     @BindView(R.id.mJCVideoPlayer)
     XinQuVideoPlayerStandard mJCVideoPlayer;
-    @BindView(R.id.toolBar)
-    Toolbar toolBar;
 
     @BindView(R.id.stateView)
     StateView stateView;
     @BindView(R.id.commonToolbar)
     CommonToolBar commonToolbar;
-
-
-    private String title;
+    @BindView(R.id.tv_weike_title)
+    TextView tvWeikeTitle;
 
 
     private String id;
@@ -175,8 +157,8 @@ public class WeiKeDetailActivity extends BaseActivity<WeiKeDetailPresenter> impl
         if (courseInfo != null) {
             currentCourseInfo = courseInfo;
 
-            title = courseInfo.getTitle();
-            mTextViewTitle.setText(title);
+
+            tvWeikeTitle.setText(courseInfo.getTitle());
 
             playVideo(courseInfo);
             initWebView(courseInfo);
@@ -391,4 +373,10 @@ public class WeiKeDetailActivity extends BaseActivity<WeiKeDetailPresenter> impl
     }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

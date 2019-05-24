@@ -18,6 +18,7 @@ import yc.com.pinyin_study.base.constant.Config;
 import yc.com.pinyin_study.base.constant.SpConstant;
 import yc.com.pinyin_study.base.model.domain.VipInfo;
 import yc.com.pinyin_study.index.model.domain.UserInfo;
+import yc.com.pinyin_study.study.model.domain.StudyPages;
 import yc.com.pinyin_study.study.utils.EngineUtils;
 import yc.com.pinyin_study.study_1vs1.model.bean.IndexDialogInfoWrapper;
 
@@ -190,6 +191,30 @@ public class UserInfoHelper {
             }
         });
 
+    }
+
+    public  static void getStudyPages(Context context) {
+        EngineUtils.getStudyPages(context).subscribe(new Subscriber<ResultInfo<StudyPages>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ResultInfo<StudyPages> stringResultInfo) {
+                if (stringResultInfo != null) {
+                    if (stringResultInfo.code == HttpConfig.STATUS_OK && stringResultInfo.data != null) {
+                        SPUtils.getInstance().put(SpConstant.STUDY_PAGES, stringResultInfo.data.count);
+                    }
+                }
+
+            }
+        });
     }
 
 

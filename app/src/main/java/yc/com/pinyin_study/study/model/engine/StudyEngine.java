@@ -24,12 +24,6 @@ public class StudyEngine extends BaseEngine {
         super(context);
     }
 
-    public Observable<ResultInfo<StudyPages>> getStudyPages() {
-
-
-        return HttpCoreEngin.get(mContext).rxpost(UrlConfig.study_list_url, new TypeReference<ResultInfo<StudyPages>>() {
-        }.getType(), null, true, true, true);
-    }
 
 
     public Observable<ResultInfo<StudyInfoWrapper>> getStudyDetail(int page) {

@@ -21,4 +21,6 @@ public class SpConstant {
     public static final String PHONE = "phone";
 
     public static final String INDEX_MENU_STATICS = "index_menu_statics";
+
+    public static String IS_SHARE="is_share";
 }

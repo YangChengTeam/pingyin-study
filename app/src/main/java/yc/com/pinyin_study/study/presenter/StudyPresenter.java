@@ -14,6 +14,7 @@ import yc.com.pinyin_study.study.contract.StudyContract;
 import yc.com.pinyin_study.study.model.domain.StudyInfoWrapper;
 import yc.com.pinyin_study.study.model.domain.StudyPages;
 import yc.com.pinyin_study.study.model.engine.StudyEngine;
+import yc.com.pinyin_study.study.utils.EngineUtils;
 
 /**
  * Created by wanglin  on 2018/10/30 16:40.
@@ -34,7 +35,7 @@ public class StudyPresenter extends BasePresenter<StudyEngine, StudyContract.Vie
     @Override
     public void getStudyPages() {
 //        mView.showLoading();
-        Subscription subscription = mEngine.getStudyPages().subscribe(new Subscriber<ResultInfo<StudyPages>>() {
+        Subscription subscription = EngineUtils.getStudyPages(mContext).subscribe(new Subscriber<ResultInfo<StudyPages>>() {
             @Override
             public void onCompleted() {
 

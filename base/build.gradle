@@ -40,5 +40,5 @@ dependencies {
     compile project(':rxbus')
     compile project(':RxTools-library')
     provided 'com.android.support:design:26.0.0-alpha1'
-    implementation project(':share')
+    api project(':share')
 }

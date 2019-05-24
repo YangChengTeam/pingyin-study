@@ -2,6 +2,7 @@ package yc.com.pinyin_study.error.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.service.voice.VoiceInteractionService;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.annotation.Tag;
+import com.hwangjr.rxbus.thread.EventThread;
 import com.kk.securityhttp.net.contains.HttpConfig;
 import com.umeng.analytics.MobclickAgent;
 
@@ -18,7 +22,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import yc.com.base.BaseFragment;
+import yc.com.blankj.utilcode.util.SPUtils;
 import yc.com.pinyin_study.R;
+import yc.com.pinyin_study.base.constant.BusAction;
+import yc.com.pinyin_study.base.constant.SpConstant;
+import yc.com.pinyin_study.base.fragment.ShareFragment;
 import yc.com.pinyin_study.base.widget.MainToolBar;
 import yc.com.pinyin_study.base.widget.StateView;
 import yc.com.pinyin_study.category.utils.ItemDecorationHelper;
@@ -72,11 +80,17 @@ public class ErrorFragment extends BaseFragment<ErrorPresenter> implements Error
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ErrorInfo errorInfo = errorListAdapter.getItem(position);
-                Intent intent = new Intent(getActivity(), ErrorDetailActivity.class);
-                intent.putExtra("errorId", errorInfo.getId());
-                intent.putExtra("title", errorInfo.getTitle());
-                MobclickAgent.onEvent(getActivity(), "material_id", "易错点");
-                startActivity(intent);
+                boolean isShare = SPUtils.getInstance().getBoolean(SpConstant.IS_SHARE, false);
+                if (position < 2 || isShare) {
+                    Intent intent = new Intent(getActivity(), ErrorDetailActivity.class);
+                    intent.putExtra("errorId", errorInfo.getId());
+                    intent.putExtra("title", errorInfo.getTitle());
+                    MobclickAgent.onEvent(getActivity(), "material_id", "易错点");
+                    startActivity(intent);
+                } else {
+                    ShareFragment shareFragment = new ShareFragment();
+                    shareFragment.show(getChildFragmentManager(), "");
+                }
 
             }
         });
@@ -117,6 +131,18 @@ public class ErrorFragment extends BaseFragment<ErrorPresenter> implements Error
                 mPresenter.getErrorInfoList();
             }
         });
+    }
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.SHARE_SUCCESS)
+            }
+    )
+    public void shareSuccess(String success) {
+        if (success.equals("share_success")) {
+            errorListAdapter.notifyDataSetChanged();
+        }
     }
 
 

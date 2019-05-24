@@ -13,4 +13,6 @@ public class Config {
     public static final String SPLASH_ADV = "2050454101451645";
     public static final String BANNER_TOP_ADV = "2060251131651636";
     public static final String BANNER_BOTTOM_ADV = "6050753111751667";
+
+    public static final String UMENG_KEY = "5bebb7c2b465f5454e00011f";
 }

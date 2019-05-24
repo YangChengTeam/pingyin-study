@@ -16,6 +16,7 @@ import yc.com.pinyin_study.base.model.domain.GoodInfoWrapper;
 import yc.com.pinyin_study.base.widget.MainToolBar;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
 import yc.com.pinyin_study.pay.alipay.OrderInfo;
+import yc.com.pinyin_study.study.model.domain.StudyPages;
 import yc.com.pinyin_study.study_1vs1.model.bean.IndexDialogInfoWrapper;
 
 /**
@@ -58,6 +59,12 @@ public class EngineUtils {
     public static Observable<ResultInfo<IndexDialogInfoWrapper>> getIndexMenuInfo(Context context) {
 
         return HttpCoreEngin.get(context).rxpost(UrlConfig.index_menu_url, new TypeReference<ResultInfo<IndexDialogInfoWrapper>>() {
+        }.getType(), null, true, true, true);
+    }
+
+
+    public static Observable<ResultInfo<StudyPages>> getStudyPages(Context context){
+        return HttpCoreEngin.get(context).rxpost(UrlConfig.study_list_url, new TypeReference<ResultInfo<StudyPages>>() {
         }.getType(), null, true, true, true);
     }
 
