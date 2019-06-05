@@ -27,6 +27,7 @@
         android:background="@color/white"
         app:elevation="0dp"
         app:itemTextColor="@color/main_item_color_selector"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/navigation" />
 
 </LinearLayout>

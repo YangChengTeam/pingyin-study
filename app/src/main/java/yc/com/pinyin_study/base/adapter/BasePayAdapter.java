@@ -1,9 +1,11 @@
 package yc.com.pinyin_study.base.adapter;
 
+import android.text.TextPaint;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -31,8 +33,12 @@ public class BasePayAdapter extends BaseQuickAdapter<GoodInfo, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, GoodInfo item) {
         helper.setText(R.id.tv_vip_title, item.getTitle())
+                .setText(R.id.tv_current_price, String.format(mContext.getString(R.string.vip_price), item.getReal_price()))
+                .setText(R.id.tv_new_origin_price, String.format(mContext.getString(R.string.vip_price), item.getPrice()))
                 .setText(R.id.tv_vip_subtitle, item.getSub_title());
+        ((TextView) helper.getView(R.id.tv_new_origin_price)).getPaint().setFlags(TextPaint.STRIKE_THRU_TEXT_FLAG | TextPaint.ANTI_ALIAS_FLAG);
         Glide.with(mContext).asBitmap().load(item.getIcon()).into((ImageView) helper.getView(R.id.iv_vip_index));
+
         helper.setText(R.id.tv_vip_price, String.format(mContext.getString(R.string.vip_price), item.getReal_price()))
                 .setText(R.id.tv_origin_price, String.format(mContext.getString(R.string.origin_price), item.getPrice()));
         helper.addOnClickListener(R.id.iv_info_item);

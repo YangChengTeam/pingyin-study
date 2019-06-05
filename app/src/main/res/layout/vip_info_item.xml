@@ -2,16 +2,86 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/vip_info_item_bg"
+        android:orientation="vertical"
+        android:padding="@dimen/t20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="购买课程："
+                android:textColor="@color/gray_666666" />
+
+            <TextView
+                android:id="@+id/tv_vip_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/orange_bc790a" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/t10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="课程原价："
+                android:textColor="@color/gray_666666" />
+
+            <TextView
+                android:id="@+id/tv_new_origin_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+
+                android:textColor="@color/black" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/t10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="实付款："
+                android:textColor="@color/gray_666666" />
+
+            <TextView
+                android:id="@+id/tv_current_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/red_f86e54"
+                android:textSize="@dimen/t16sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/t48dp"
         android:layout_weight="1"
         android:background="@drawable/vip_info_item_bg"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/t12dp"
-        android:paddingRight="@dimen/t12dp">
+        android:paddingRight="@dimen/t12dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/iv_vip_index"
@@ -35,7 +105,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_vip_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -85,6 +154,7 @@
         android:layout_width="@dimen/t21dp"
         android:layout_height="@dimen/t21dp"
         android:layout_marginLeft="@dimen/t8dp"
-        android:src="@drawable/vip_info_item_selector" />
+        android:src="@drawable/vip_info_item_selector"
+        android:visibility="gone" />
 
 </LinearLayout>

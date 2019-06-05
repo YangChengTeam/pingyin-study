@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity {
 
     private void initNavigation() {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        BottomNavigationViewHelper.disableShiftMode(navigation);
+//        BottomNavigationViewHelper.disableShiftMode(navigation);
         navigation.setItemIconTintList(null);
         navigation.getMenu().getItem(1).setChecked(true);
     }
@@ -126,7 +126,7 @@ public class MainActivity extends BaseActivity {
                     return true;
                 case R.id.navigation_1vs1:
                     viewPager.setCurrentItem(4);
-                    LogUtil.msg("tag click");
+
                     MobclickAgent.onEvent(MainActivity.this, "one_to_one_click", "1对1");
                     return true;
 
