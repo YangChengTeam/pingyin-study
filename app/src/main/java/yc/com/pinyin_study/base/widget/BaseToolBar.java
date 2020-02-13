@@ -2,9 +2,6 @@ package yc.com.pinyin_study.base.widget;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +16,9 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import rx.functions.Action1;
 import yc.com.base.BaseActivity;
@@ -26,8 +26,8 @@ import yc.com.base.BaseView;
 import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.base.activity.WebActivity;
 import yc.com.pinyin_study.base.fragment.BasePayFragment;
-import yc.com.pinyin_study.base.fragment.BasePhoneFragment;
 import yc.com.pinyin_study.index.fragment.VipEquitiesFragment;
+import yc.com.pinyin_study.index.utils.UserInfoHelper;
 
 
 public abstract class BaseToolBar extends BaseView {
@@ -123,9 +123,10 @@ public abstract class BaseToolBar extends BaseView {
         RxView.clicks(ivLeftIcon).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
-                BasePayFragment basePayFragment = new BasePayFragment();
-                basePayFragment.show(mActivity.getSupportFragmentManager(), "");
-
+                if (!UserInfoHelper.isPhonogramVip()) {
+                    BasePayFragment basePayFragment = new BasePayFragment();
+                    basePayFragment.show(mActivity.getSupportFragmentManager(), "");
+                }
             }
         });
 

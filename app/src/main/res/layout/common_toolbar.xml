@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:paddingTop="@dimen/status_bar_height">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -74,6 +74,6 @@
         </LinearLayout>
 
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
 </LinearLayout>

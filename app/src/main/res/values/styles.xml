@@ -11,7 +11,7 @@
     <style name="Splash" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowDisablePreview">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@drawable/splash_bg</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 

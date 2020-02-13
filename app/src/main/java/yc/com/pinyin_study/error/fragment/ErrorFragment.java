@@ -1,13 +1,7 @@
 package yc.com.pinyin_study.error.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.service.voice.VoiceInteractionService;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hwangjr.rxbus.annotation.Subscribe;
@@ -18,9 +12,9 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import yc.com.base.BaseFragment;
 import yc.com.blankj.utilcode.util.SPUtils;
 import yc.com.pinyin_study.R;

@@ -1,11 +1,7 @@
 package yc.com.pinyin_study.base.widget;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +9,9 @@ import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import rx.functions.Action1;
 import yc.com.base.BaseActivity;

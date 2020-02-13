@@ -2,11 +2,13 @@ package com.xinqu.videoplayer.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 
 
 /**
@@ -15,7 +17,7 @@ import android.view.MotionEvent;
  * 带有按下效果的ImageView
  */
 
-public class TouchFilterImageView extends android.support.v7.widget.AppCompatImageView {
+public class TouchFilterImageView extends AppCompatImageView {
 
     private static final String TAG = "TouchFilterImageView";
 
@@ -27,19 +29,19 @@ public class TouchFilterImageView extends android.support.v7.widget.AppCompatIma
 
     public TouchFilterImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mGestureDetector = new GestureDetector(context,mGestureDetectorListener);
+        mGestureDetector = new GestureDetector(context, mGestureDetectorListener);
     }
 
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(null!=mGestureDetector){
+        if (null != mGestureDetector) {
             mGestureDetector.onTouchEvent(event);
         }
         return super.onTouchEvent(event);
     }
 
-    GestureDetector.SimpleOnGestureListener mGestureDetectorListener = new GestureDetector.SimpleOnGestureListener(){
+    GestureDetector.SimpleOnGestureListener mGestureDetectorListener = new GestureDetector.SimpleOnGestureListener() {
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
@@ -49,7 +51,7 @@ public class TouchFilterImageView extends android.support.v7.widget.AppCompatIma
         @Override
         public void onLongPress(MotionEvent e) {
             super.onLongPress(e);
-            Log.d(TAG,"onLongPress");
+            Log.d(TAG, "onLongPress");
             TouchFilterImageView.this.clearColorFilter(); // 清除滤镜
         }
 

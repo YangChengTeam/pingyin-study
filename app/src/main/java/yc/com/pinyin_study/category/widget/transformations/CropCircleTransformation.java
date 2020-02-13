@@ -18,13 +18,14 @@ package yc.com.pinyin_study.category.widget.transformations;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.security.MessageDigest;
+
+import androidx.annotation.NonNull;
 
 /**
  * @deprecated Use {@link RequestOptions#circleCrop()}.

@@ -15,4 +15,15 @@ public class Config {
     public static final String BANNER_BOTTOM_ADV = "6050753111751667";
 
     public static final String UMENG_KEY = "5bebb7c2b465f5454e00011f";
+
+    public static final boolean SHOW_ADV = true;
+
+    public static final String TOUTIAO_AD_ID = "5044640";
+    public static final String TOUTIAO_SPLASH_ID = "887291488";
+
+    public static final String  TOUTIAO_REWARD_ID = "945008357";
+
+    public static final String TOUTIAO_BANNER1_ID = "945009693";
+
+    public static final String TOUTIAO_BANNER2_ID = "945009699";
 }

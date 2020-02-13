@@ -1,19 +1,19 @@
 package yc.com.pinyin_study.study.fragment;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.jakewharton.rxbinding.view.RxView;
 import com.kk.securityhttp.net.contains.HttpConfig;
-import com.kk.utils.LogUtil;
 import com.kk.utils.ToastUtil;
 import com.qq.e.ads.nativ.NativeExpressADView;
 import com.xinqu.videoplayer.XinQuVideoPlayer;
@@ -25,6 +25,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
 
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import rx.functions.Action1;
 import yc.com.base.BaseActivity;
@@ -41,7 +43,6 @@ import yc.com.pinyin_study.base.widget.MainToolBar;
 import yc.com.pinyin_study.base.widget.StateView;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
 import yc.com.pinyin_study.study.adapter.StudyMainAdapter;
-import yc.com.pinyin_study.study.adapter.StudyVowelAdapter;
 import yc.com.pinyin_study.study.contract.StudyContract;
 import yc.com.pinyin_study.study.model.domain.StudyInfoWrapper;
 import yc.com.pinyin_study.study.presenter.StudyPresenter;
@@ -49,12 +50,14 @@ import yc.com.pinyin_study.study.utils.AVMediaManager;
 import yc.com.pinyin_study.study.utils.ObserverManager;
 import yc.com.tencent_adv.AdvDispatchManager;
 import yc.com.tencent_adv.AdvType;
-import yc.com.tencent_adv.OnAdvStateListener;
+import yc.com.toutiao_adv.OnAdvStateListener;
+import yc.com.toutiao_adv.TTAdDispatchManager;
+import yc.com.toutiao_adv.TTAdType;
 
 /**
  * Created by wanglin  on 2018/10/24 17:21.
  */
-public class StudyFragment extends BaseFragment<StudyPresenter> implements StudyContract.View, Observer, OnAdvStateListener {
+public class StudyFragment extends BaseFragment<StudyPresenter> implements StudyContract.View, Observer, OnAdvStateListener, yc.com.tencent_adv.OnAdvStateListener {
 
     @BindView(R.id.study_viewPager)
     ViewPager studyViewPager;
@@ -74,6 +77,10 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
 
     @BindView(R.id.bottomContainer)
     FrameLayout bottomContainer;
+    @BindView(R.id.iv_bottombanner_close)
+    ImageView ivBottombannerClose;
+    @BindView(R.id.rl_ad_container)
+    RelativeLayout rlAdContainer;
 
 
     private List<Fragment> fragments = new ArrayList<>();
@@ -100,6 +107,10 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
             initViewpager(totalPages);
         }
 
+        if (!SPUtils.getInstance().getBoolean(SpConstant.INDEX_DIALOG)) {
+            IndexDialogFragment indexDialogFragment = new IndexDialogFragment();
+            indexDialogFragment.show(getChildFragmentManager(), "");
+        }
         initListener();
         mainToolbar.init(((BaseActivity) getActivity()), WebActivity.class);
         mainToolbar.setTvRightTitleAndIcon(getString(R.string.diandu), R.mipmap.diandu);
@@ -114,7 +125,13 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
         if (UserInfoHelper.isCloseAdv()) {
             bottomContainer.setVisibility(View.GONE);
         } else {
-            AdvDispatchManager.getManager().init(getActivity(), AdvType.BANNER, bottomContainer, null, Config.TENCENT_ADV, Config.BANNER_BOTTOM_ADV, this);
+            if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
+
+                AdvDispatchManager.getManager().init(getActivity(), AdvType.BANNER, bottomContainer, null, Config.TENCENT_ADV, Config.BANNER_BOTTOM_ADV, this);
+            } else {
+
+                TTAdDispatchManager.getManager().init(getActivity(), TTAdType.BANNER, bottomContainer, Config.TOUTIAO_BANNER1_ID, 0, null, 0, null, 0, this);
+            }
         }
 
     }
@@ -178,6 +195,13 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
                     ivPre.setImageResource(R.mipmap.study_pre_normal);
                     ToastUtil.toast2(getActivity(), "已经是第一页了");
                 }
+            }
+        });
+
+        RxView.clicks(ivBottombannerClose).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                rlAdContainer.setVisibility(View.GONE);
             }
         });
 
@@ -330,6 +354,41 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
     public void onDestroy() {
         super.onDestroy();
         observerManager.removeObserver(this);
+        TTAdDispatchManager.getManager().onDestroy();
+    }
+
+
+    @Subscribe(
+            thread = EventThread.MAIN_THREAD,
+            tags = {
+                    @Tag(BusAction.PAY_SUCCESS)
+            }
+    )
+    public void paySuccess(String info) {
+        if (bottomContainer.getVisibility() == View.VISIBLE) {
+            bottomContainer.setVisibility(View.GONE);
+        }
+    }
+
+
+    @Override
+    public void loadSuccess() {
+
+    }
+
+    @Override
+    public void loadFailed() {
+
+    }
+
+    @Override
+    public void clickAD() {
+
+    }
+
+    @Override
+    public void onTTNativeExpressed(List<TTNativeExpressAd> ads) {
+
     }
 
     @Override
@@ -355,17 +414,5 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
     @Override
     public void onNativeExpressShow(Map<NativeExpressADView, Integer> mDatas) {
 
-    }
-
-    @Subscribe(
-            thread = EventThread.MAIN_THREAD,
-            tags = {
-                    @Tag(BusAction.PAY_SUCCESS)
-            }
-    )
-    public void paySuccess(String info) {
-        if (bottomContainer.getVisibility() == View.VISIBLE) {
-            bottomContainer.setVisibility(View.GONE);
-        }
     }
 }

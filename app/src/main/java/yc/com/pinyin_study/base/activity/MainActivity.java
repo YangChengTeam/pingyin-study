@@ -2,13 +2,9 @@ package yc.com.pinyin_study.base.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
-import com.kk.share.UMShareImpl;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kk.utils.LogUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
@@ -18,12 +14,14 @@ import com.xinqu.videoplayer.XinQuVideoPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import yc.com.base.BaseActivity;
 import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.base.adapter.MainAdapter;
 import yc.com.pinyin_study.base.fragment.ExitFragment;
-import yc.com.pinyin_study.base.utils.BottomNavigationViewHelper;
 import yc.com.pinyin_study.base.utils.UIUtils;
 import yc.com.pinyin_study.category.fragment.CategoryFragment;
 import yc.com.pinyin_study.error.fragment.ErrorFragment;
@@ -31,7 +29,6 @@ import yc.com.pinyin_study.index.fragment.PhoneticFragment;
 import yc.com.pinyin_study.study.fragment.StudyFragment;
 import yc.com.pinyin_study.study.utils.AVMediaManager;
 import yc.com.pinyin_study.study_1vs1.fragment.Study1vs1Fragment;
-import yc.com.tencent_adv.AdvDispatchManager;
 
 public class MainActivity extends BaseActivity {
 
@@ -187,7 +184,7 @@ public class MainActivity extends BaseActivity {
             }
 
         }
-        AdvDispatchManager.getManager().onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        AdvDispatchManager.getManager().onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

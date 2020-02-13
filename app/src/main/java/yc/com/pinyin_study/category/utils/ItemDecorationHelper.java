@@ -2,7 +2,7 @@ package yc.com.pinyin_study.category.utils;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.kk.utils.ScreenUtil;

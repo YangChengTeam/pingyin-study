@@ -2,8 +2,6 @@ package yc.com.base;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -14,6 +12,8 @@ import com.hwangjr.rxbus.RxBus;
 import com.umeng.analytics.MobclickAgent;
 import com.vondear.rxtools.RxLogTool;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;
 
 /**

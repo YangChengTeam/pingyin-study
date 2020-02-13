@@ -30,7 +30,7 @@
             android:layout_weight="1">
 
 
-            <android.support.v4.view.ViewPager
+            <androidx.viewpager.widget.ViewPager
                 android:id="@+id/study_viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -65,10 +65,26 @@
             </LinearLayout>
         </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/bottomContainer"
+        <RelativeLayout
+            android:id="@+id/rl_ad_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/bottomContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/iv_bottombanner_close"
+                android:layout_width="@dimen/t25dp"
+                android:layout_height="@dimen/t25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/t5dp"
+                android:layout_marginTop="@dimen/t5dp"
+                android:src="@mipmap/banner_close"
+                android:visibility="gone" />
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

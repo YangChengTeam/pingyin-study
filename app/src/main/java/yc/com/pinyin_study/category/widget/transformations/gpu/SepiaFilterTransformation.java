@@ -16,10 +16,9 @@ package yc.com.pinyin_study.category.widget.transformations.gpu;
  * limitations under the License.
  */
 
-import android.support.annotation.NonNull;
-
 import java.security.MessageDigest;
 
+import androidx.annotation.NonNull;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSepiaToneFilter;
 
 /**

@@ -1,15 +1,8 @@
 package yc.com.pinyin_study.base.fragment;
 
 import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -22,9 +15,11 @@ import com.kk.utils.ToastUtil;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import rx.functions.Action1;
 import yc.com.base.BaseActivity;
 import yc.com.base.BaseDialogFragment;

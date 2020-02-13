@@ -246,7 +246,7 @@ public class AVManager implements OnAVManagerListener {
 
 
     @Override
-    public void playAssetFile(String assetFilePath, final int step) {
+    public void playAssetFile(String assetFilePath,boolean isOnce, final int step) {
 
 
     }

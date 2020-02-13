@@ -10,7 +10,7 @@
         android:layout_height="wrap_content" />
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -27,7 +27,7 @@
                 android:layout_height="match_parent" />
 
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/category_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -35,10 +35,26 @@
                 android:paddingLeft="@dimen/t6dp"
                 android:paddingTop="@dimen/t6dp" />
 
-            <FrameLayout
-                android:id="@+id/topContainer"
+            <RelativeLayout
+                android:id="@+id/rl_ad_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:id="@+id/topContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:id="@+id/iv_bottombanner_close"
+                    android:layout_width="@dimen/t25dp"
+                    android:layout_height="@dimen/t25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/t5dp"
+                    android:layout_marginTop="@dimen/t5dp"
+                    android:src="@mipmap/banner_close"
+                    android:visibility="gone" />
+            </RelativeLayout>
         </LinearLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

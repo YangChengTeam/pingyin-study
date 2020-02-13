@@ -4,18 +4,18 @@ import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.os.Handler;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bytedance.sdk.openadsdk.TTAdConstant;
+import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
@@ -24,8 +24,10 @@ import com.kk.securityhttp.net.contains.HttpConfig;
 import com.xinqu.videoplayer.XinQuVideoPlayer;
 import com.xinqu.videoplayer.XinQuVideoPlayerStandard;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.functions.Action1;
@@ -35,6 +37,7 @@ import yc.com.blankj.utilcode.util.NetworkUtils;
 import yc.com.blankj.utilcode.util.SizeUtils;
 import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.base.constant.BusAction;
+import yc.com.pinyin_study.base.constant.Config;
 import yc.com.pinyin_study.base.fragment.BasePayFragment;
 import yc.com.pinyin_study.base.widget.CommonToolBar;
 import yc.com.pinyin_study.base.widget.StateView;
@@ -43,12 +46,15 @@ import yc.com.pinyin_study.category.model.domain.CourseInfo;
 import yc.com.pinyin_study.category.presenter.WeiKeDetailPresenter;
 import yc.com.pinyin_study.index.model.domain.UserInfo;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
+import yc.com.toutiao_adv.OnAdvStateListener;
+import yc.com.toutiao_adv.TTAdDispatchManager;
+import yc.com.toutiao_adv.TTAdType;
 
 /**
  * Created by wanglin  on 2017/9/6 08:32.
  */
 
-public class WeiKeDetailActivity extends BaseActivity<WeiKeDetailPresenter> implements WeiKeDetailContract.View {
+public class WeiKeDetailActivity extends BaseActivity<WeiKeDetailPresenter> implements WeiKeDetailContract.View, OnAdvStateListener {
     private static final String TAG = "NewsDetailActivity";
 
     @BindView(R.id.tv_learn_count)
@@ -86,6 +92,7 @@ public class WeiKeDetailActivity extends BaseActivity<WeiKeDetailPresenter> impl
     private SensorManager mSensorManager;
     private XinQuVideoPlayer.XinQuAutoFullscreenListener mSensorEventListener;
 
+
     @Override
     public int getLayoutId() {
         return R.layout.common_activity_weike_detail;
@@ -93,6 +100,9 @@ public class WeiKeDetailActivity extends BaseActivity<WeiKeDetailPresenter> impl
 
     @Override
     public void init() {
+
+
+
         mPresenter = new WeiKeDetailPresenter(this, this);
 
         mOldPriceTextView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -201,7 +211,7 @@ public class WeiKeDetailActivity extends BaseActivity<WeiKeDetailPresenter> impl
 
 
     private void initWebView(final CourseInfo data) {
-
+        webView.setBackgroundColor(ContextCompat.getColor(this, android.R.color.transparent));
         final WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
@@ -374,9 +384,22 @@ public class WeiKeDetailActivity extends BaseActivity<WeiKeDetailPresenter> impl
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    public void loadSuccess() {
+
+    }
+
+    @Override
+    public void loadFailed() {
+
+    }
+
+    @Override
+    public void clickAD() {
+
+    }
+
+    @Override
+    public void onTTNativeExpressed(List<TTNativeExpressAd> ads) {
+
     }
 }

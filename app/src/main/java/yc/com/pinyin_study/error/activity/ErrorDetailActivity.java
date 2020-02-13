@@ -6,6 +6,8 @@ import com.kk.securityhttp.net.contains.HttpConfig;
 
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import butterknife.BindView;
 import yc.com.base.BaseActivity;
 import yc.com.pinyin_study.R;
@@ -44,6 +46,7 @@ public class ErrorDetailActivity extends BaseActivity<ErrorPresenter> implements
     @Override
     public void init() {
 
+
         commonToolbar.showNavigation();
         commonToolbar.init(this);
 //        commonToolbar.setRightVisable(true);
@@ -69,6 +72,7 @@ public class ErrorDetailActivity extends BaseActivity<ErrorPresenter> implements
 
     @Override
     public void showErrorDetail(ErrorInfo data) {
+        commonWebView.setBackgroundColor(ContextCompat.getColor(this, android.R.color.transparent));
         commonWebView.loadDataWithBaseURL(null, data.getContent(), "text/html", "utf-8", null);
     }
 

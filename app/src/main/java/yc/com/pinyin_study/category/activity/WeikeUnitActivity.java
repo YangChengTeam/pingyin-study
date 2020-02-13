@@ -1,11 +1,6 @@
 package yc.com.pinyin_study.category.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -13,8 +8,11 @@ import com.kk.utils.ScreenUtil;
 
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import yc.com.base.BaseActivity;
 import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.base.widget.MainToolBar;

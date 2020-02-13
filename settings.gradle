@@ -1,1 +1,1 @@
-include ':app',':base',':rxbus',':RxTools-library',':xinqu-video-player',':share'
+include ':app', ':base', ':rxbus', ':RxTools-library', ':xinqu-video-player', ':share', ':toutiao-adv'

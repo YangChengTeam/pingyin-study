@@ -1,10 +1,11 @@
 package yc.com.pinyin_study.study.widget;
 
 import android.content.Context;
-import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
+
+import androidx.core.widget.NestedScrollView;
 
 /**
  * Created by wanglin  on 2018/11/16 16:29.

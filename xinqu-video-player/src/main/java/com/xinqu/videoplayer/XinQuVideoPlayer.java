@@ -10,7 +10,6 @@ import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.v7.app.ActionBar;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -26,14 +25,18 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.xinqu.videoplayer.listener.PerfectClickListener;
 import com.xinqu.videoplayer.manager.XinQuMediaManager;
 import com.xinqu.videoplayer.manager.XinQuVideoPlayerManager;
 import com.xinqu.videoplayer.util.XinQuUtils;
+
 import java.lang.reflect.Constructor;
 import java.util.LinkedHashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import androidx.appcompat.app.ActionBar;
 
 
 /**

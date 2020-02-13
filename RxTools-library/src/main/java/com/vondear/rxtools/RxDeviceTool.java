@@ -19,7 +19,6 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.SystemClock;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -45,6 +44,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import androidx.core.app.ActivityCompat;
 
 /**
  * 设备工具类
@@ -299,6 +300,7 @@ public class RxDeviceTool {
      * @param context
      * @return
      */
+    @SuppressLint("MissingPermission")
     public static String getSubscriberId(Context context) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return tm.getSubscriberId();
@@ -310,6 +312,7 @@ public class RxDeviceTool {
      * @param context
      * @return
      */
+    @SuppressLint("MissingPermission")
     public static String getVoiceMailNumber(Context context) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         return tm.getVoiceMailNumber();

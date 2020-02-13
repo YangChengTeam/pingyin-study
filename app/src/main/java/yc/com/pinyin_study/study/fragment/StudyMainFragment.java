@@ -2,12 +2,7 @@ package yc.com.pinyin_study.study.fragment;
 
 import android.content.Intent;
 import android.graphics.RectF;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -36,9 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import rx.functions.Action1;
 import yc.com.base.BaseFragment;
 import yc.com.blankj.utilcode.util.SPUtils;
@@ -240,7 +235,7 @@ public class StudyMainFragment extends BaseFragment<StudyPresenter> implements S
                 } else {
                     //todo 播放并录音
                     playStep = 1;
-                    mListener.playAssetFile("guide_01.mp3", playStep);
+                    mListener.playAssetFile("guide_01.mp3",false, playStep);
                     if (mStudyInfo != null) {
                         tvPracticeSoundmark.setVisibility(View.VISIBLE);
                         tvPracticeSoundmark.setText(mStudyInfo.getName());
@@ -595,7 +590,7 @@ public class StudyMainFragment extends BaseFragment<StudyPresenter> implements S
     public void playPracticeSecondUpdateUI() {
 
         playStep = 3;
-        mListener.playAssetFile("user_tape_tips.mp3", playStep);
+        mListener.playAssetFile("user_tape_tips.mp3", false,playStep);
     }
 
     @Override
@@ -628,7 +623,7 @@ public class StudyMainFragment extends BaseFragment<StudyPresenter> implements S
     @Override
     public void playPracticeThirdUpdateUI() {
         playStep = 1;
-        mListener.playAssetFile("guide_02.mp3", playStep);
+        mListener.playAssetFile("guide_02.mp3",false, playStep);
         ivTopCarton.setVisibility(View.GONE);
     }
 

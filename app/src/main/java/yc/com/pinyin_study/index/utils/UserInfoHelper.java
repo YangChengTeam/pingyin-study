@@ -164,7 +164,7 @@ public class UserInfoHelper {
 
     //是否开会员去广告
     public static boolean isCloseAdv() {
-        return isPhonogramVip() || isPhonicsVip() || isPhonogramOrPhonicsVip() || isSuperVip();
+        return isPhonogramVip() || isPhonicsVip() || isPhonogramOrPhonicsVip() || isSuperVip() || !Config.SHOW_ADV;
     }
 
 
@@ -193,7 +193,7 @@ public class UserInfoHelper {
 
     }
 
-    public  static void getStudyPages(Context context) {
+    public static void getStudyPages(Context context) {
         EngineUtils.getStudyPages(context).subscribe(new Subscriber<ResultInfo<StudyPages>>() {
             @Override
             public void onCompleted() {

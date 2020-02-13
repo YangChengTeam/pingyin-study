@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="370dp"
         android:background="@mipmap/study_vowel_bg"
@@ -24,7 +24,7 @@
             android:orientation="vertical">
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <ImageView
         android:id="@+id/iv_vowel_close"

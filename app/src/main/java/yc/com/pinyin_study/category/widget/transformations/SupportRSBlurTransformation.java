@@ -21,12 +21,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Build;
-import android.support.annotation.NonNull;
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 
 import java.security.MessageDigest;
 
+import androidx.annotation.NonNull;
 import yc.com.pinyin_study.category.widget.transformations.internal.FastBlur;
 import yc.com.pinyin_study.category.widget.transformations.internal.RSBlur;
 import yc.com.pinyin_study.category.widget.transformations.internal.SupportRSBlur;
