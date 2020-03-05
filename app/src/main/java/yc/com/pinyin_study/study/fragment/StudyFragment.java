@@ -33,7 +33,6 @@ import yc.com.base.BaseActivity;
 import yc.com.base.BaseFragment;
 import yc.com.blankj.utilcode.util.SPUtils;
 import yc.com.pinyin_study.R;
-import yc.com.pinyin_study.base.activity.WebActivity;
 import yc.com.pinyin_study.base.constant.BusAction;
 import yc.com.pinyin_study.base.constant.Config;
 import yc.com.pinyin_study.base.constant.SpConstant;
@@ -42,14 +41,13 @@ import yc.com.pinyin_study.base.utils.UIUtils;
 import yc.com.pinyin_study.base.widget.MainToolBar;
 import yc.com.pinyin_study.base.widget.StateView;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
+import yc.com.pinyin_study.study.activity.PrivacyPolicyActivity;
 import yc.com.pinyin_study.study.adapter.StudyMainAdapter;
 import yc.com.pinyin_study.study.contract.StudyContract;
 import yc.com.pinyin_study.study.model.domain.StudyInfoWrapper;
 import yc.com.pinyin_study.study.presenter.StudyPresenter;
 import yc.com.pinyin_study.study.utils.AVMediaManager;
 import yc.com.pinyin_study.study.utils.ObserverManager;
-import yc.com.tencent_adv.AdvDispatchManager;
-import yc.com.tencent_adv.AdvType;
 import yc.com.toutiao_adv.OnAdvStateListener;
 import yc.com.toutiao_adv.TTAdDispatchManager;
 import yc.com.toutiao_adv.TTAdType;
@@ -112,8 +110,8 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
             indexDialogFragment.show(getChildFragmentManager(), "");
         }
         initListener();
-        mainToolbar.init(((BaseActivity) getActivity()), WebActivity.class);
-        mainToolbar.setTvRightTitleAndIcon(getString(R.string.diandu), R.mipmap.diandu);
+        mainToolbar.init(((BaseActivity) getActivity()), PrivacyPolicyActivity.class);
+        mainToolbar.setTvRightTitleAndIcon(getString(R.string.privacy_policy), R.mipmap.diandu);
         mainToolbar.setBackGround(R.color.transparant);
 
         UIUtils.getInstance(getActivity()).measureViewLoction(mainToolbar);
@@ -126,8 +124,8 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
             bottomContainer.setVisibility(View.GONE);
         } else {
             if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
-
-                AdvDispatchManager.getManager().init(getActivity(), AdvType.BANNER, bottomContainer, null, Config.TENCENT_ADV, Config.BANNER_BOTTOM_ADV, this);
+                bottomContainer.setVisibility(View.GONE);
+//                AdvDispatchManager.getManager().init(getActivity(), AdvType.BANNER, bottomContainer, null, Config.TENCENT_ADV, Config.BANNER_BOTTOM_ADV, this);
             } else {
 
                 TTAdDispatchManager.getManager().init(getActivity(), TTAdType.BANNER, bottomContainer, Config.TOUTIAO_BANNER1_ID, 0, null, 0, null, 0, this);

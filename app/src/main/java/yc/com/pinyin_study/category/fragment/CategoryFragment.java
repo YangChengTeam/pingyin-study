@@ -9,7 +9,6 @@ import android.widget.RelativeLayout;
 
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
@@ -43,8 +42,6 @@ import yc.com.pinyin_study.category.model.domain.WeiKeCategory;
 import yc.com.pinyin_study.category.presenter.CategoryMainPresenter;
 import yc.com.pinyin_study.category.utils.ItemDecorationHelper;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
-import yc.com.tencent_adv.AdvDispatchManager;
-import yc.com.tencent_adv.AdvType;
 import yc.com.toutiao_adv.OnAdvStateListener;
 import yc.com.toutiao_adv.TTAdDispatchManager;
 import yc.com.toutiao_adv.TTAdType;
@@ -93,8 +90,8 @@ public class CategoryFragment extends BaseFragment<CategoryMainPresenter> implem
             topContainer.setVisibility(View.GONE);
         } else {
             if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
-
-                AdvDispatchManager.getManager().init(getActivity(), AdvType.BANNER, topContainer, null, Config.TENCENT_ADV, Config.BANNER_TOP_ADV, this);
+                topContainer.setVisibility(View.GONE);
+//                AdvDispatchManager.getManager().init(getActivity(), AdvType.BANNER, topContainer, null, Config.TENCENT_ADV, Config.BANNER_TOP_ADV, this);
             } else {
 
                 TTAdDispatchManager.getManager().init(getActivity(), TTAdType.BANNER, topContainer, Config.TOUTIAO_BANNER2_ID, 0, null, 0, null, 0, this);

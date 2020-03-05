@@ -53,7 +53,10 @@ public class SplashActivity extends BaseActivity implements OnAdvStateListener, 
         } else {
             if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
 
-                AdvDispatchManager.getManager().init(this, AdvType.SPLASH, splashContainer, skipView, Config.TENCENT_ADV, Config.SPLASH_ADV, this);
+//                AdvDispatchManager.getManager().init(this, AdvType.SPLASH, splashContainer, skipView, Config.TENCENT_ADV, Config.SPLASH_ADV, this);
+                ivSplash.setVisibility(View.VISIBLE);
+                skipView.setVisibility(View.GONE);
+                switchMain(1000);
             } else {
                 TTAdDispatchManager.getManager().init(this, TTAdType.SPLASH, splashContainer, Config.TOUTIAO_SPLASH_ID, 0, null, 0, null, 0, this);
             }
@@ -82,9 +85,9 @@ public class SplashActivity extends BaseActivity implements OnAdvStateListener, 
     protected void onResume() {
         super.onResume();
         if (!UserInfoHelper.isCloseAdv()) {
-            if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR"))
-                AdvDispatchManager.getManager().onResume();
-            else
+            if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
+//                AdvDispatchManager.getManager().onResume();
+            } else
                 TTAdDispatchManager.getManager().onResume();
         }
     }
@@ -93,9 +96,9 @@ public class SplashActivity extends BaseActivity implements OnAdvStateListener, 
     protected void onPause() {
         super.onPause();
         if (!UserInfoHelper.isCloseAdv()) {
-            if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR"))
-                AdvDispatchManager.getManager().onPause();
-            else
+            if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
+//                AdvDispatchManager.getManager().onPause();
+            } else
                 TTAdDispatchManager.getManager().onStop();
         }
     }

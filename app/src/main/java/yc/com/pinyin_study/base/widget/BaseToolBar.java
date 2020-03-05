@@ -28,6 +28,7 @@ import yc.com.pinyin_study.base.activity.WebActivity;
 import yc.com.pinyin_study.base.fragment.BasePayFragment;
 import yc.com.pinyin_study.index.fragment.VipEquitiesFragment;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
+import yc.com.pinyin_study.study.activity.PrivacyPolicyActivity;
 
 
 public abstract class BaseToolBar extends BaseView {
@@ -100,7 +101,7 @@ public abstract class BaseToolBar extends BaseView {
         RxView.clicks(toolbarIntroduce).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
-                if (null != clazz && clazz == WebActivity.class) {
+                if (null != clazz && (clazz == WebActivity.class || clazz == PrivacyPolicyActivity.class)) {
                     MobclickAgent.onEvent(mContext, "textbook-reading-click", "课本点读");
 
                     Intent intent = new Intent(activity, clazz);
