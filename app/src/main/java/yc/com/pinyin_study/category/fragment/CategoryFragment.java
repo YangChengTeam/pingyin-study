@@ -9,7 +9,6 @@ import android.widget.RelativeLayout;
 
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
@@ -26,6 +25,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import butterknife.BindView;
 import rx.functions.Action1;
 import yc.com.base.BaseActivity;
@@ -43,8 +43,6 @@ import yc.com.pinyin_study.category.model.domain.WeiKeCategory;
 import yc.com.pinyin_study.category.presenter.CategoryMainPresenter;
 import yc.com.pinyin_study.category.utils.ItemDecorationHelper;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
-import yc.com.tencent_adv.AdvDispatchManager;
-import yc.com.tencent_adv.AdvType;
 import yc.com.toutiao_adv.OnAdvStateListener;
 import yc.com.toutiao_adv.TTAdDispatchManager;
 import yc.com.toutiao_adv.TTAdType;
@@ -89,16 +87,15 @@ public class CategoryFragment extends BaseFragment<CategoryMainPresenter> implem
 
         mainToolbar.init((BaseActivity) getActivity(), WebActivity.class);
         mainToolbar.setTvRightTitleAndIcon(getString(R.string.diandu), R.mipmap.diandu);
-        if (UserInfoHelper.isCloseAdv()) {
+        if (UserInfoHelper.isCloseAdv() || Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
             topContainer.setVisibility(View.GONE);
         } else {
-            if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
 
-                AdvDispatchManager.getManager().init(getActivity(), AdvType.BANNER, topContainer, null, Config.TENCENT_ADV, Config.BANNER_TOP_ADV, this);
-            } else {
+//                AdvDispatchManager.getManager().init(getActivity(), AdvType.BANNER, topContainer, null, Config.TENCENT_ADV, Config.BANNER_TOP_ADV, this);
 
-                TTAdDispatchManager.getManager().init(getActivity(), TTAdType.BANNER, topContainer, Config.TOUTIAO_BANNER2_ID, 0, null, 0, null, 0, this);
-            }
+
+            TTAdDispatchManager.getManager().init(getActivity(), TTAdType.BANNER, topContainer, Config.TOUTIAO_BANNER2_ID, 0, null, 0, null, 0, this);
+
         }
 
         getData(false);
@@ -127,8 +124,13 @@ public class CategoryFragment extends BaseFragment<CategoryMainPresenter> implem
 //                Intent intent = new Intent(getActivity(), WeikeUnitActivity.class);
 //                intent.putExtra("category_id", categoryMainAdapter.getItem(position).getId());
 //                startActivity(intent);
-            TTAdDispatchManager.getManager().init(getActivity(), TTAdType.REWARD_VIDEO, null, Config.TOUTIAO_REWARD_ID, 0, "解锁微课视频", 12, UserInfoHelper.getUid(), TTAdConstant.VERTICAL, this);
             this.mPos = position;
+            if (UserInfoHelper.isCloseAdv() || Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
+                gotoWeiKeDetail();
+            } else {
+                TTAdDispatchManager.getManager().init(getActivity(), TTAdType.REWARD_VIDEO, null, Config.TOUTIAO_REWARD_ID, 0, "解锁微课视频", 12, UserInfoHelper.getUid(), TTAdConstant.VERTICAL, this);
+
+            }
 //
 
         });
@@ -245,12 +247,16 @@ public class CategoryFragment extends BaseFragment<CategoryMainPresenter> implem
 
     @Override
     public void clickAD() {
+        gotoWeiKeDetail();
+    }
+
+
+    private void gotoWeiKeDetail() {
         Intent intent = new Intent(getActivity(), WeiKeDetailActivity.class);
 //
         intent.putExtra("pid", categoryMainAdapter.getItem(mPos).getId());
         startActivity(intent);
     }
-
 
     @Override
     public void onTTNativeExpressed(List<TTNativeExpressAd> ads) {
