@@ -1,21 +1,18 @@
 package yc.com.pinyin_study.study.adapter;
 
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.kk.utils.LogUtil;
-import com.kk.utils.ScreenUtil;
 
 import java.util.List;
 
-import yc.com.base.BaseView;
 import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
 import yc.com.pinyin_study.study.model.domain.WordInfo;
+import yc.com.rthttplibrary.util.ScreenUtil;
 
 /**
  * Created by wanglin  on 2018/11/1 09:12.
@@ -54,13 +51,16 @@ public class StudyVowelAdapter extends BaseQuickAdapter<WordInfo, BaseViewHolder
 
     private void setItemState(BaseViewHolder helper, WordInfo item) {
 
-        if (UserInfoHelper.isPhonogramVip()) {
-            helper.setVisible(R.id.iv_cover_layer, false);
-            helper.setVisible(R.id.iv_lock, false);
-        } else {
-            helper.setVisible(R.id.iv_cover_layer, item.getIs_vip() == 1);
-            helper.setVisible(R.id.iv_lock, item.getIs_vip() == 1);
-        }
+
+        helper.setVisible(R.id.iv_cover_layer, false);
+        helper.setVisible(R.id.iv_lock, false);
+//        if (UserInfoHelper.isPhonogramVip()) {
+//            helper.setVisible(R.id.iv_cover_layer, false);
+//            helper.setVisible(R.id.iv_lock, false);
+//        } else {
+//            helper.setVisible(R.id.iv_cover_layer, item.getIs_vip() == 1);
+//            helper.setVisible(R.id.iv_lock, item.getIs_vip() == 1);
+//        }
 
 
     }

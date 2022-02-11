@@ -19,10 +19,10 @@
                 <data android:scheme="tencent1107909873" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.tencent.connect.common.AssistActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+<!--        <activity-->
+<!--            android:name="com.tencent.connect.common.AssistActivity"-->
+<!--            android:configChanges="orientation|keyboardHidden|screenSize"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
     </application>
 
 </manifest>

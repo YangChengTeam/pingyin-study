@@ -7,11 +7,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.text.TextUtils;
 
-import com.kk.utils.LogUtil;
-import com.kk.utils.ToastUtil;
-import com.ksyun.media.player.IMediaPlayer;
-import com.ksyun.media.player.KSYMediaPlayer;
-
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +20,8 @@ import rx.subscriptions.CompositeSubscription;
 import yc.com.blankj.utilcode.util.LogUtils;
 import yc.com.pinyin_study.study.listener.OnAVManagerListener;
 import yc.com.pinyin_study.study.listener.OnUIPracticeControllerListener;
+import yc.com.rthttplibrary.util.LogUtil;
+import yc.com.rthttplibrary.util.ToastUtil;
 
 /**
  * Created by wanglin  on 2018/11/3 09:26.
@@ -147,7 +144,7 @@ public class PpAudioManager implements OnAVManagerListener {
     private MediaPlayer.OnErrorListener newErrorListener = new MediaPlayer.OnErrorListener() {
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
-            ToastUtil.toast2(mContext, "播放失败！");
+            ToastUtil.toast(mContext, "播放失败！");
 
             LogUtil.msg("error->" + what + "  extra->" + extra);
 
@@ -206,7 +203,7 @@ public class PpAudioManager implements OnAVManagerListener {
 
         } catch (IOException e) {
             e.printStackTrace();
-            ToastUtil.toast2(mContext, "播放文件有误！");
+            ToastUtil.toast(mContext, "播放文件有误！");
         }
     }
 

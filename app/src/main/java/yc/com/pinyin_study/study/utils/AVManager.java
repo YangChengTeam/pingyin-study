@@ -17,8 +17,7 @@ import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
 
-import com.kk.utils.LogUtil;
-import com.kk.utils.ToastUtil;
+
 import com.ksyun.media.player.IMediaPlayer;
 import com.ksyun.media.player.KSYMediaPlayer;
 
@@ -40,6 +39,8 @@ import yc.com.blankj.utilcode.util.ToastUtils;
 import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.study.listener.OnAVManagerListener;
 import yc.com.pinyin_study.study.listener.OnUIApplyControllerListener;
+import yc.com.rthttplibrary.util.LogUtil;
+import yc.com.rthttplibrary.util.ToastUtil;
 
 
 /**
@@ -79,14 +80,10 @@ public class AVManager implements OnAVManagerListener {
     /**
      * 初始化监听器。
      */
-    private InitListener mInitListener = new InitListener() {
-
-        @Override
-        public void onInit(int code) {
-            if (code != ErrorCode.SUCCESS) {
+    private InitListener mInitListener = code -> {
+        if (code != ErrorCode.SUCCESS) {
 //                ToastUtils.showLong("初始化失败，错误码：" + code);
-                LogUtil.msg("初始化失败，错误码：" + code);
-            }
+            LogUtil.msg("初始化失败，错误码：" + code);
         }
     };
 
@@ -199,7 +196,7 @@ public class AVManager implements OnAVManagerListener {
         mKsyMediaPlayer.setOnErrorListener(new IMediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(IMediaPlayer mp, int what, int extra) {
-                ToastUtil.toast2(mContext, "播放失败！");
+                ToastUtil.toast(mContext, "播放失败！");
                 uiApplyControllerListener.playErrorUpdateUI();
                 return false;
             }
@@ -322,13 +319,13 @@ public class AVManager implements OnAVManagerListener {
                     @Override
                     public boolean onError(MediaPlayer mp, int what, int extra) {
                         uiApplyControllerListener.playRecordAfterUpdateUI();
-                        ToastUtil.toast2(mContext, "文件播放失败");
+                        ToastUtil.toast(mContext, "文件播放失败");
                         return false;
 
                     }
                 });
             } else {
-                ToastUtil.toast2(mContext, "请先录音，再播放");
+                ToastUtil.toast(mContext, "请先录音，再播放");
             }
         } catch (Exception e) {
             LogUtils.e("prepare() failed");

@@ -4,7 +4,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ScreenUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,6 +11,7 @@ import butterknife.BindView;
 import rx.functions.Action1;
 import yc.com.base.BaseDialogFragment;
 import yc.com.pinyin_study.R;
+import yc.com.rthttplibrary.util.ScreenUtil;
 
 /**
  * Created by wanglin  on 2018/11/12 15:36.

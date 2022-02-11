@@ -1,0 +1,20 @@
+
+V	java:S125T"<This block of commented-out lines of code should be removed.(µáˆÿÿÿÿÿ
+
+java:S1186š"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Û˜ÁÉûÿÿÿÿ
+W	java:S110 "=This class has 10 parents which is greater than 5 authorized.(ÍÖÿ€üÿÿÿÿ
+c
+java:S11922"FDefine a constant instead of duplicating this literal "HONOR" 3 times.(Œ©·æ8¥Û»£Š.
+d
+java:S11922"GDefine a constant instead of duplicating this literal "HUAWEI" 3 times.(Œ©·æ8¥Û»£Š.
+
+java:S1186€"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(õí±Öÿÿÿÿÿ
+˜
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ŸÖµ¸
+—
+java:S1186•"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(İ¦’q
+O
+java:S2387)"4"mHandler" is the name of a field in "BaseActivity".(×»ëØşÿÿÿÿ
+Y
+java:S1128"7Remove this unused import 'yc.com.tencent_adv.AdvType'.(ØÚï·ıÿÿÿÿ8¥Û»£Š.
+V	java:S125_"<This block of commented-out lines of code should be removed.(†Öíéûÿÿÿÿ

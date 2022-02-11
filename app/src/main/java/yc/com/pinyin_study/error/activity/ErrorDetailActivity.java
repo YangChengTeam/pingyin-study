@@ -2,12 +2,9 @@ package yc.com.pinyin_study.error.activity;
 
 import android.view.View;
 
-import com.kk.securityhttp.net.contains.HttpConfig;
-
 import java.util.List;
 
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import butterknife.BindView;
 import yc.com.base.BaseActivity;
 import yc.com.pinyin_study.R;
@@ -18,6 +15,7 @@ import yc.com.pinyin_study.error.contract.ErrorContract;
 import yc.com.pinyin_study.error.model.bean.ErrorInfo;
 import yc.com.pinyin_study.error.presenter.ErrorPresenter;
 import yc.com.pinyin_study.study.widget.CommonScrollView;
+import yc.com.rthttplibrary.config.HttpConfig;
 
 /**
  * Created by wanglin  on 2019/3/7 10:16.

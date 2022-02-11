@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:english="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/mine_top_bg"
+            android:orientation="vertical">
+
+            <yc.com.pinyin_study.base.widget.MainToolBar
+                android:id="@+id/main_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/t15dp"
+                android:layout_marginTop="@dimen/t8dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="49dp"
+                    android:layout_height="@dimen/t55dp"
+                    android:src="@mipmap/default_avtor" />
+
+                <TextView
+                    android:id="@+id/tv_user_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/t10dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/t18sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-45dp"
+            android:background="@drawable/mine_content_bg"
+            android:orientation="vertical">
+
+            <yc.com.pinyin_study.mine.widget.BaseSettingView
+                android:id="@+id/baseSettingView_person"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/t5dp"
+                english:settingIcon="@mipmap/icon_personal"
+                english:settingTitle="@string/person_info" />
+
+            <yc.com.pinyin_study.mine.widget.BaseSettingView
+                android:id="@+id/baseSettingView_dredge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                english:settingIcon="@mipmap/icon_member"
+                english:settingTitle="@string/dredge_vip" />
+
+            <yc.com.pinyin_study.mine.widget.BaseSettingView
+                android:id="@+id/baseSettingView_equities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                english:settingIcon="@mipmap/equities_vip"
+                english:settingTitle="@string/vip_equities" />
+
+            <yc.com.pinyin_study.mine.widget.BaseSettingView
+                android:id="@+id/baseSettingView_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                english:settingIcon="@mipmap/my_order"
+                english:settingTitle="@string/my_order" />
+
+            <yc.com.pinyin_study.mine.widget.BaseSettingView
+                android:id="@+id/baseSettingView_share"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                english:settingIcon="@mipmap/share_friend"
+                english:settingTitle="@string/share_friend" />
+
+            <yc.com.pinyin_study.mine.widget.BaseSettingView
+                android:id="@+id/baseSettingView_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                english:settingIcon="@mipmap/service_wx"
+                english:settingTitle="@string/service_wx" />
+
+            <yc.com.pinyin_study.mine.widget.BaseSettingView
+                android:id="@+id/baseSettingView_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                english:settingIcon="@mipmap/icon_set"
+                english:settingTitle="@string/system_setting" />
+
+            <yc.com.pinyin_study.mine.widget.BaseSettingView
+                android:id="@+id/baseSettingView_privacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                english:settingIcon="@mipmap/icon_privacy"
+                english:settingTitle="@string/privacy_title" />
+
+            <yc.com.pinyin_study.mine.widget.BaseSettingView
+                android:id="@+id/baseSettingView_service_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                english:settingIcon="@mipmap/share_friend"
+                english:settingTitle="在线时间：周一至周五 8:30-18:00 \n                   周六值周日 9:00-12:00"
+                english:setting_show_arrow="false"
+                english:setting_show_divider="false" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

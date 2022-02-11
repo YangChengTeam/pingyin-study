@@ -337,12 +337,12 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@mipmap/study_practice_bg"
-                                android:weightSum="4">
+                                android:weightSum="5">
 
                                 <View
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="2" />
+                                    android:layout_weight="2.2" />
 
 
                                 <LinearLayout
@@ -350,7 +350,7 @@
                                     android:layout_height="match_parent"
                                     android:layout_marginLeft="@dimen/t5dp"
                                     android:layout_marginRight="@dimen/t25dp"
-                                    android:layout_weight="2"
+                                    android:layout_weight="2.8"
                                     android:gravity="center"
                                     android:orientation="vertical">
 
@@ -476,8 +476,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="204dp"
                     android:layout_below="@id/connector3"
-                    android:layout_marginLeft="@dimen/t15dp"
-                    android:layout_marginRight="@dimen/t15dp"
+                    android:layout_marginStart="@dimen/t15dp"
+                    android:layout_marginEnd="@dimen/t10dp"
                     android:layout_marginTop="-10dp"
                     android:background="@mipmap/study_item_small_bg"
                     android:orientation="vertical"
@@ -522,8 +522,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="@dimen/t3dp"
-                            android:paddingBottom="@dimen/t10dp"
-                            android:paddingRight="@dimen/t10dp"
+                            android:paddingEnd="@dimen/t8dp"
                             android:paddingTop="@dimen/t5dp">
 
                             <RelativeLayout
@@ -550,9 +549,9 @@
                             <RelativeLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_marginBottom="@dimen/t15dp"
-                                android:layout_marginLeft="@dimen/t10dp"
-                                android:layout_marginTop="@dimen/t15dp"
+                                android:layout_marginBottom="@dimen/t5dp"
+                                android:layout_marginStart="@dimen/t10dp"
+                                android:layout_marginTop="@dimen/t5dp"
                                 android:layout_weight="3">
 
                                 <TextView
@@ -626,7 +625,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/t10dp"
+                                android:layout_marginStart="@dimen/t10dp"
                                 android:text="通过组词，由浅入深练习拼音吧！"
                                 android:textColor="@color/gray_a59d98"
                                 android:textSize="@dimen/t12sp" />

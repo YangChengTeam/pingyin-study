@@ -1,26 +1,32 @@
 package yc.com.pinyin_study.index.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.kk.securityhttp.domain.ResultInfo;
-import com.kk.securityhttp.net.contains.HttpConfig;
-import com.kk.utils.LogUtil;
-import com.kk.utils.PreferenceUtil;
+
 
 import java.util.List;
 
-import rx.Subscriber;
-import rx.Subscription;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import yc.com.blankj.utilcode.util.LogUtils;
 import yc.com.blankj.utilcode.util.SPUtils;
 import yc.com.pinyin_study.base.constant.Config;
 import yc.com.pinyin_study.base.constant.SpConstant;
+import yc.com.pinyin_study.base.httpinterface.HttpRequestInterface;
 import yc.com.pinyin_study.base.model.domain.VipInfo;
+import yc.com.pinyin_study.base.observer.BaseCommonObserver;
+import yc.com.pinyin_study.index.model.domain.ContactInfo;
 import yc.com.pinyin_study.index.model.domain.UserInfo;
+import yc.com.pinyin_study.index.model.domain.UserInfoWrapper;
+import yc.com.pinyin_study.mine.activity.LoginActivity;
+import yc.com.pinyin_study.mine.model.engine.LoginEngine;
 import yc.com.pinyin_study.study.model.domain.StudyPages;
-import yc.com.pinyin_study.study.utils.EngineUtils;
 import yc.com.pinyin_study.study_1vs1.model.bean.IndexDialogInfoWrapper;
+import yc.com.rthttplibrary.request.RetrofitHttpRequest;
+import yc.com.rthttplibrary.util.LogUtil;
 
 /**
  * Created by wanglin  on 2018/10/29 09:38.
@@ -30,6 +36,7 @@ public class UserInfoHelper {
     private static UserInfo mUserInfo;
 
     private static List<VipInfo> mVipInfoList;
+    private static ContactInfo mContactInfo;
 
     public static UserInfo getUserInfo() {
         if (mUserInfo != null) {
@@ -89,20 +96,72 @@ public class UserInfoHelper {
 
     }
 
+    public static void setContactInfo(ContactInfo contactInfo) {
+        UserInfoHelper.mContactInfo = contactInfo;
+        try {
+            String str = JSON.toJSONString(contactInfo);
+            SPUtils.getInstance().put(SpConstant.CONTACT_INFO, str);
+        } catch (Exception e) {
+            LogUtil.msg("to json error->" + e.getMessage());
+        }
+    }
+
+    public static ContactInfo getContactInfo() {
+        if (mContactInfo != null) {
+            return mContactInfo;
+        }
+        ContactInfo contactInfo = null;
+        try {
+            String str = SPUtils.getInstance().getString(SpConstant.CONTACT_INFO);
+            contactInfo = JSON.parseObject(str, ContactInfo.class);
+
+        } catch (Exception e) {
+            LogUtils.e("json parse error->" + e.getMessage());
+        }
+        mContactInfo = contactInfo;
+
+        return mContactInfo;
+    }
+
     public static String getUid() {
         String userId = "";
 
-        if (mUserInfo != null) {
-            userId = mUserInfo.getUid();
+        if (getUserInfo() != null) {
+            userId = getUserInfo().getUser_id();
         }
 
         return userId;
     }
 
 
+    public static boolean isLogin(Context context) {
+        boolean isLogin = false;
+        if (!TextUtils.isEmpty(getUid())) {
+            isLogin = true;
+
+        }
+
+        if (!isLogin) {
+            Intent intent = new Intent(context, LoginActivity.class);
+            context.startActivity(intent);
+        }
+        return isLogin;
+    }
+
+    public static void logout() {
+        UserInfo userInfo = new UserInfo();
+        UserInfoHelper.saveUserInfo(userInfo);
+        List<VipInfo> vipInfos = getVipInfoList();
+        if (vipInfos != null && vipInfos.size() > 0) {
+            vipInfos = null;
+        }
+        setVipInfoList(vipInfos);
+    }
+
+
     public static void saveVip(String vip) {
         boolean flag = false;
-        String vips = SPUtils.getInstance().getString("vip", "");
+        String vips = SPUtils.getInstance().getString(SpConstant.USER_VIP, "");
         String[] vipArr = vips.split(",");
         for (String tmp : vipArr) {
             if (tmp.equals(vip)) {
@@ -111,13 +170,13 @@ public class UserInfoHelper {
             }
         }
         if (!flag) {
-            SPUtils.getInstance().put("vip", vips + "," + vip);
+            SPUtils.getInstance().put(SpConstant.USER_VIP, vips + "," + vip);
         }
     }
 
     public static boolean isVip(String vip) {
         boolean flag = false;
-        String vips = SPUtils.getInstance().getString("vip", "");
+        String vips = SPUtils.getInstance().getString(SpConstant.USER_VIP, "");
         String[] vipArr = vips.split(",");
 
         for (String tmp : vipArr) {
@@ -167,54 +226,156 @@ public class UserInfoHelper {
         return isPhonogramVip() || isPhonicsVip() || isPhonogramOrPhonicsVip() || isSuperVip() || !Config.SHOW_ADV;
     }
 
+    private static LoginEngine loginEngine;
+
+    public static void login(Context context) {
+        if (loginEngine == null) {
+            loginEngine = new LoginEngine(context);
+        }
+
+        UserInfo userInfo = getUserInfo();
+        if (userInfo != null) {
+            String mobile = userInfo.getMobile();
+            String pwd = userInfo.getPwd();
+            if (!TextUtils.isEmpty(mobile) && !TextUtils.isEmpty(pwd)) {
+
+                loginEngine.login(mobile,pwd).subscribe(new BaseCommonObserver<UserInfoWrapper>(context) {
+                    @Override
+                    public void onSuccess(UserInfoWrapper data, String message) {
+
+                            if (data != null) {
+                                UserInfo info = data.getUserInfo();
+                                List<VipInfo> vipList = data.getVipList();
+                                if (info != null) {
+                                    info.setPwd(pwd);
+                                }
+
+                                saveUserInfo(info);
+                                setVipInfoList(vipList);
+
+                            }
+
+                    }
+
+                    @Override
+                    public void onFailure(int code, String errorMsg) {
+
+                    }
+
+                    @Override
+                    public void onRequestComplete() {
+
+                    }
+                });
+
+
+//                loginEngine.login(mobile, pwd).subscribe(new Subscriber<ResultInfo<UserInfoWrapper>>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(ResultInfo<UserInfoWrapper> userInfoWrapperResultInfo) {
+//                        if (userInfoWrapperResultInfo != null) {
+//                            if (userInfoWrapperResultInfo.code == HttpConfig.STATUS_OK && userInfoWrapperResultInfo.data != null) {
+//                                UserInfo info = userInfoWrapperResultInfo.data.getUserInfo();
+//                                List<VipInfo> vipList = userInfoWrapperResultInfo.data.getVipList();
+//                                if (info != null) {
+//                                    info.setPwd(pwd);
+//                                }
+//
+//                                saveUserInfo(info);
+//                                setVipInfoList(vipList);
+//
+//                            }
+//                        }
+//                    }
+//                });
+            }
+
+        }
+
+    }
 
     public static void getIndexMenuInfo(Context context) {
-        EngineUtils.getIndexMenuInfo(context).subscribe(new Subscriber<ResultInfo<IndexDialogInfoWrapper>>() {
-            @Override
-            public void onCompleted() {
+        RetrofitHttpRequest.get(context).create(HttpRequestInterface.class)
+                .getIndexMenuInfo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCommonObserver<IndexDialogInfoWrapper>(context) {
+                    @Override
+                    public void onSuccess(IndexDialogInfoWrapper data, String message) {
 
-            }
+                        SPUtils.getInstance().put(SpConstant.INDEX_MENU_STATICS, JSON.toJSONString(data.info));
+                    }
 
-            @Override
-            public void onError(Throwable e) {
+                    @Override
+                    public void onFailure(int code, String errorMsg) {
+
+                    }
 
 
-            }
+                    @Override
+                    public void onRequestComplete() {
 
-            @Override
-            public void onNext(ResultInfo<IndexDialogInfoWrapper> indexDialogInfoWrapperResultInfo) {
-
-                if (indexDialogInfoWrapperResultInfo != null && indexDialogInfoWrapperResultInfo.code == HttpConfig.STATUS_OK) {
-                    IndexDialogInfoWrapper infoWrapper = indexDialogInfoWrapperResultInfo.data;
-                    SPUtils.getInstance().put(SpConstant.INDEX_MENU_STATICS, JSON.toJSONString(infoWrapper.info));
-                }
-            }
-        });
+                    }
+                });
+//        EngineUtils.getIndexMenuInfo(context).subscribe(new Subscriber<ResultInfo<IndexDialogInfoWrapper>>() {
+//            @Override
+//            public void onCompleted() {
+//
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//
+//
+//            }
+//
+//            @Override
+//            public void onNext(ResultInfo<IndexDialogInfoWrapper> indexDialogInfoWrapperResultInfo) {
+//
+//                if (indexDialogInfoWrapperResultInfo != null && indexDialogInfoWrapperResultInfo.code == HttpConfig.STATUS_OK) {
+//                    IndexDialogInfoWrapper infoWrapper = indexDialogInfoWrapperResultInfo.data;
+//                    SPUtils.getInstance().put(SpConstant.INDEX_MENU_STATICS, JSON.toJSONString(infoWrapper.info));
+//                }
+//            }
+//        });
 
     }
 
     public static void getStudyPages(Context context) {
-        EngineUtils.getStudyPages(context).subscribe(new Subscriber<ResultInfo<StudyPages>>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(ResultInfo<StudyPages> stringResultInfo) {
-                if (stringResultInfo != null) {
-                    if (stringResultInfo.code == HttpConfig.STATUS_OK && stringResultInfo.data != null) {
-                        SPUtils.getInstance().put(SpConstant.STUDY_PAGES, stringResultInfo.data.count);
+        RetrofitHttpRequest.get(context).create(HttpRequestInterface.class)
+                .getStudyPages()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseCommonObserver<StudyPages>(context) {
+                    @Override
+                    public void onSuccess(StudyPages data, String message) {
+                        if (data != null) {
+                            SPUtils.getInstance().put(SpConstant.STUDY_PAGES, data.count);
+                        }
                     }
-                }
 
-            }
-        });
+                    @Override
+                    public void onFailure(int code, String errorMsg) {
+
+                    }
+
+
+                    @Override
+                    public void onRequestComplete() {
+
+                    }
+                });
+
+
     }
 
 

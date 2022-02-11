@@ -11,22 +11,24 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ScreenUtil;
-import com.kk.utils.ToastUtil;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-import rx.functions.Action1;
 import yc.com.blankj.utilcode.util.SPUtils;
 import yc.com.pinyin_study.R;
+import yc.com.pinyin_study.base.EnglishStudyApp;
 import yc.com.pinyin_study.base.constant.SpConstant;
+import yc.com.pinyin_study.index.fragment.IndexNoticeDialogFragment;
+import yc.com.rthttplibrary.util.ScreenUtil;
+import yc.com.rthttplibrary.util.ToastUtil;
 
 /**
  * Created by wanglin  on 2019/4/12 14:40.
@@ -37,9 +39,9 @@ public class IndexDialogFragment extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        Window window = getDialog().getWindow();
+        Window window = Objects.requireNonNull(getDialog()).getWindow();
 
 
         if (rootView == null) {
@@ -81,10 +83,11 @@ public class IndexDialogFragment extends DialogFragment {
 
     private boolean mChecked;
 
-    protected void initView() {
+    private void initView() {
 
 
         CheckBox cb = (CheckBox) getView(R.id.cb_privacy);
+        ((TextView) getView(R.id.tv_privacy)).setText(EnglishStudyApp.privacyPolicy);
 
         final TextView tvEnterApp = (TextView) getView(R.id.tv_enter_app);
         mChecked = cb.isChecked();
@@ -104,14 +107,17 @@ public class IndexDialogFragment extends DialogFragment {
 
 //                SharePreferenceUtils.getInstance().putBoolean(Config.index_dialog, true);
                 SPUtils.getInstance().put(SpConstant.INDEX_DIALOG, true);
-                    PromotionDialogFragment promotionDialogFragment = new PromotionDialogFragment();
-                    if (getActivity() != null) {
-                        promotionDialogFragment.show(getActivity().getSupportFragmentManager(), "");
-                    }
+//                    PromotionDialogFragment promotionDialogFragment = new PromotionDialogFragment();
+//                    if (getActivity() != null) {
+//                        promotionDialogFragment.show(getActivity().getSupportFragmentManager(), "");
+//                    }
+                IndexNoticeDialogFragment indexNoticeDialogFragment = new IndexNoticeDialogFragment();
+                if (getActivity() != null)
+                    indexNoticeDialogFragment.show(getActivity().getSupportFragmentManager(), "");
 
                 dismiss();
             } else {
-                ToastUtil.toast2(getActivity(), "请先同意用户协议");
+                ToastUtil.toast(getActivity(), "请先同意用户协议");
             }
         });
 

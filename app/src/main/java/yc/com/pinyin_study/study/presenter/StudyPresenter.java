@@ -2,19 +2,12 @@ package yc.com.pinyin_study.study.presenter;
 
 import android.content.Context;
 
-import com.kk.securityhttp.domain.ResultInfo;
-import com.kk.securityhttp.net.contains.HttpConfig;
-
-import rx.Subscriber;
-import rx.Subscription;
 import yc.com.base.BasePresenter;
-import yc.com.blankj.utilcode.util.SPUtils;
-import yc.com.pinyin_study.base.constant.SpConstant;
+import yc.com.pinyin_study.base.observer.BaseCommonObserver;
 import yc.com.pinyin_study.study.contract.StudyContract;
 import yc.com.pinyin_study.study.model.domain.StudyInfoWrapper;
 import yc.com.pinyin_study.study.model.domain.StudyPages;
 import yc.com.pinyin_study.study.model.engine.StudyEngine;
-import yc.com.pinyin_study.study.utils.EngineUtils;
 
 /**
  * Created by wanglin  on 2018/10/30 16:40.
@@ -34,67 +27,63 @@ public class StudyPresenter extends BasePresenter<StudyEngine, StudyContract.Vie
 
     @Override
     public void getStudyPages() {
-//        mView.showLoading();
-        Subscription subscription = EngineUtils.getStudyPages(mContext).subscribe(new Subscriber<ResultInfo<StudyPages>>() {
-            @Override
-            public void onCompleted() {
 
-            }
-
+        mEngine.getStudyPages().subscribe(new BaseCommonObserver<StudyPages>(mContext) {
             @Override
-            public void onError(Throwable e) {
-                mView.showNoNet();
-            }
-
-            @Override
-            public void onNext(ResultInfo<StudyPages> stringResultInfo) {
-                if (stringResultInfo != null) {
-                    if (stringResultInfo.code == HttpConfig.STATUS_OK && stringResultInfo.data != null) {
-                        mView.hide();
-                        mView.showStudyPages(stringResultInfo.data.count);
-                    } else {
-                        mView.showNoData();
-                    }
+            public void onSuccess(StudyPages data, String message) {
+                if (data != null) {
+                    mView.hide();
+                    mView.showStudyPages(data.count);
                 } else {
-                    mView.showNoNet();
+                    mView.showNoData();
                 }
 
             }
+
+            @Override
+            public void onFailure(int code, String errorMsg) {
+                mView.showNoNet();
+            }
+
+
+
+            @Override
+            public void onRequestComplete() {
+
+            }
         });
-        mSubscriptions.add(subscription);
+
+
     }
 
     @Override
     public void getStudyDetail(int page) {
         mView.showLoading();
-        Subscription subscription = mEngine.getStudyDetail(page).subscribe(new Subscriber<ResultInfo<StudyInfoWrapper>>() {
+        mEngine.getStudyDetail(page).subscribe(new BaseCommonObserver<StudyInfoWrapper>(mContext) {
             @Override
-            public void onCompleted() {
+            public void onSuccess(StudyInfoWrapper studyInfoWrapperResultInfo, String message) {
+                if (studyInfoWrapperResultInfo != null) {
+                    mView.hide();
+                    mView.showStudyInfo(studyInfoWrapperResultInfo);
+                } else {
+                    mView.showNoData();
+                }
+
 
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onFailure(int code, String errorMsg) {
                 mView.showNoNet();
             }
 
-            @Override
-            public void onNext(ResultInfo<StudyInfoWrapper> studyInfoWrapperResultInfo) {
-                if (studyInfoWrapperResultInfo != null) {
-                    if (studyInfoWrapperResultInfo.code == HttpConfig.STATUS_OK && studyInfoWrapperResultInfo.data != null) {
-                        mView.hide();
-                        mView.showStudyInfo(studyInfoWrapperResultInfo.data);
-                    } else {
-                        mView.showNoData();
-                    }
 
-                } else {
-                    mView.showNoNet();
-                }
+            @Override
+            public void onRequestComplete() {
 
             }
         });
-        mSubscriptions.add(subscription);
+
 
     }
 }

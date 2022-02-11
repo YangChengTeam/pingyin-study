@@ -9,8 +9,7 @@ import android.widget.LinearLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hwangjr.rxbus.RxBus;
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ScreenUtil;
-import com.kk.utils.ToastUtil;
+
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +23,7 @@ import rx.functions.Action1;
 import yc.com.base.BaseActivity;
 import yc.com.base.BaseDialogFragment;
 import yc.com.blankj.utilcode.util.SPUtils;
+import yc.com.blankj.utilcode.util.ToastUtils;
 import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.base.adapter.BasePayAdapter;
 import yc.com.pinyin_study.base.constant.BusAction;
@@ -40,6 +40,8 @@ import yc.com.pinyin_study.pay.alipay.IAliPay1Impl;
 import yc.com.pinyin_study.pay.alipay.IPayCallback;
 import yc.com.pinyin_study.pay.alipay.IWXPay1Impl;
 import yc.com.pinyin_study.pay.alipay.OrderInfo;
+import yc.com.rthttplibrary.util.ScreenUtil;
+import yc.com.rthttplibrary.util.ToastUtil;
 
 /**
  * Created by wanglin  on 2018/10/29 17:18.
@@ -109,23 +111,9 @@ public class BasePayFragment extends BaseDialogFragment<BasePayPresenter> implem
         paywayRecyclerView.addItemDecoration(new ItemDecorationHelper(getActivity(), 15));
 
 
-        basePayAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        basePayAdapter.setOnItemClickListener((adapter, view, position) -> clickItem(position));
 
-                clickItem(position);
-
-            }
-        });
-
-        basePayAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public boolean onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
-                clickItem(position);
-                return false;
-            }
-        });
+        basePayAdapter.setOnItemChildClickListener((adapter, view, position) -> clickItem(position));
 
         ivPaywayAli.setSelected(true);
         initListener();
@@ -190,7 +178,8 @@ public class BasePayFragment extends BaseDialogFragment<BasePayPresenter> implem
                 if (currentGoodInfo != null) {
                     mPresenter.createOrder(1, payway, currentGoodInfo.getReal_price(), currentGoodInfo.getId(), currentGoodInfo.getTitle());
                 } else {
-                    ToastUtil.toast2(getActivity(), "支付错误");
+                    ToastUtil.toast(getActivity(), "支付错误");
+
                 }
 
             }

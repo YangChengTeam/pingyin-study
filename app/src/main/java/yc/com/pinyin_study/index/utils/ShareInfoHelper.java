@@ -1,11 +1,12 @@
 package yc.com.pinyin_study.index.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.kk.utils.LogUtil;
+
 
 import yc.com.blankj.utilcode.util.SPUtils;
 import yc.com.pinyin_study.base.constant.SpConstant;
 import yc.com.pinyin_study.index.model.domain.ShareInfo;
+import yc.com.rthttplibrary.util.LogUtil;
 
 /**
  * Created by wanglin  on 2018/10/29 09:48.

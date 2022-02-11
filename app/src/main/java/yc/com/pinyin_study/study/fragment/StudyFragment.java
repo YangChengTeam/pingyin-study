@@ -1,6 +1,5 @@
 package yc.com.pinyin_study.study.fragment;
 
-import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -13,8 +12,6 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.securityhttp.net.contains.HttpConfig;
-import com.kk.utils.ToastUtil;
 import com.qq.e.ads.nativ.NativeExpressADView;
 import com.xinqu.videoplayer.XinQuVideoPlayer;
 
@@ -26,9 +23,10 @@ import java.util.Observer;
 import java.util.concurrent.TimeUnit;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
 import butterknife.BindView;
-import rx.functions.Action1;
 import yc.com.base.BaseActivity;
 import yc.com.base.BaseFragment;
 import yc.com.blankj.utilcode.util.SPUtils;
@@ -48,9 +46,12 @@ import yc.com.pinyin_study.study.model.domain.StudyInfoWrapper;
 import yc.com.pinyin_study.study.presenter.StudyPresenter;
 import yc.com.pinyin_study.study.utils.AVMediaManager;
 import yc.com.pinyin_study.study.utils.ObserverManager;
+import yc.com.rthttplibrary.config.HttpConfig;
+import yc.com.rthttplibrary.util.ToastUtil;
 import yc.com.toutiao_adv.OnAdvStateListener;
 import yc.com.toutiao_adv.TTAdDispatchManager;
 import yc.com.toutiao_adv.TTAdType;
+
 
 /**
  * Created by wanglin  on 2018/10/24 17:21.
@@ -105,10 +106,7 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
             initViewpager(totalPages);
         }
 
-        if (!SPUtils.getInstance().getBoolean(SpConstant.INDEX_DIALOG)) {
-            IndexDialogFragment indexDialogFragment = new IndexDialogFragment();
-            indexDialogFragment.show(getChildFragmentManager(), "");
-        }
+
         initListener();
         mainToolbar.init(((BaseActivity) getActivity()), PrivacyPolicyActivity.class);
         mainToolbar.setTvRightTitleAndIcon(getString(R.string.privacy_policy), R.mipmap.diandu);
@@ -120,88 +118,73 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
         observerManager.addMyObserver(this);
 
 
-        if (UserInfoHelper.isCloseAdv()) {
-            bottomContainer.setVisibility(View.GONE);
-        } else {
-            if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
-                bottomContainer.setVisibility(View.GONE);
-//                AdvDispatchManager.getManager().init(getActivity(), AdvType.BANNER, bottomContainer, null, Config.TENCENT_ADV, Config.BANNER_BOTTOM_ADV, this);
-            } else {
-
-                TTAdDispatchManager.getManager().init(getActivity(), TTAdType.BANNER, bottomContainer, Config.TOUTIAO_BANNER1_ID, 0, null, 0, null, 0, this);
-            }
-        }
+//        if (UserInfoHelper.isCloseAdv() || Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
+//            bottomContainer.setVisibility(View.GONE);
+//        } else {
+//
+//
+////                AdvDispatchManager.getManager().init(getActivity(), AdvType.BANNER, bottomContainer, null, Config.TENCENT_ADV, Config.BANNER_BOTTOM_ADV, this);
+//
+//
+        if (SPUtils.getInstance().getBoolean(SpConstant.INDEX_DIALOG))
+            TTAdDispatchManager.getManager().init(getActivity(), TTAdType.BANNER, bottomContainer, Config.TOUTIAO_BANNER1_ID, 0, null, 0, null, 0, this);
+//
+//
+//        }
 
     }
 
 
     private void initListener() {
-        RxView.clicks(ivShowVowel).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
-            @Override
-            public void call(Void aVoid) {
-                StudyVowelFragment studyVowelFragment = new StudyVowelFragment();
-                studyVowelFragment.setOnClickListener(new StudyVowelFragment.onClickListener() {
-                    @Override
-                    public void onClick(int pos) {
-                        if (pos < totalPages) {
-                            studyViewPager.setCurrentItem(pos);
-                            currentPos = pos;
-                        }
-
-                        if (pos == 0) {
-                            ivPre.setImageResource(R.mipmap.study_pre_normal);
-                        } else if (pos == totalPages - 1) {
-                            ivNext.setImageResource(R.mipmap.study_next_normal_);
-                        }
-                    }
-                });
-
-                studyVowelFragment.show(getFragmentManager(), "");
-            }
-        });
-
-        RxView.clicks(ivNext).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
-            @Override
-            public void call(Void aVoid) {
-                //todo 下一页
-
-                currentPos++;
-                if (currentPos < totalPages) {
-                    if (isCanNext(currentPos)) {
-                        next(currentPos);
-                    } else {
-                        currentPos--;
-                        showPayDialog();
-                    }
-                } else {
-                    currentPos--;
-                    ToastUtil.toast2(getActivity(), "已经是最后一页了");
+        RxView.clicks(ivShowVowel).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(aVoid -> {
+            StudyVowelFragment studyVowelFragment = new StudyVowelFragment();
+            studyVowelFragment.setOnClickListener(pos -> {
+                if (pos < totalPages) {
+                    studyViewPager.setCurrentItem(pos);
+                    currentPos = pos;
                 }
 
-
-            }
-        });
-        RxView.clicks(ivPre).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
-            @Override
-            public void call(Void aVoid) {
-
-                // TODO: 2018/11/2 上一页
-                if (currentPos > 0) {
-                    currentPos--;
-                    pre(currentPos);
-                } else {
+                if (pos == 0) {
                     ivPre.setImageResource(R.mipmap.study_pre_normal);
-                    ToastUtil.toast2(getActivity(), "已经是第一页了");
+                } else if (pos == totalPages - 1) {
+                    ivNext.setImageResource(R.mipmap.study_next_normal_);
                 }
+            });
+
+            studyVowelFragment.show(getChildFragmentManager(), "");
+        });
+
+        RxView.clicks(ivNext).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(aVoid -> {
+            //todo 下一页
+
+            currentPos++;
+            if (currentPos < totalPages) {
+                if (isCanNext(currentPos)) {
+                    next(currentPos);
+                } else {
+                    currentPos--;
+                    showPayDialog();
+                }
+            } else {
+                currentPos--;
+                ToastUtil.toast(getActivity(), "已经是最后一页了");
+            }
+
+
+        });
+        RxView.clicks(ivPre).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(aVoid -> {
+
+            // TODO: 2018/11/2 上一页
+            if (currentPos > 0) {
+                currentPos--;
+                pre(currentPos);
+            } else {
+                ivPre.setImageResource(R.mipmap.study_pre_normal);
+                ToastUtil.toast(getActivity(), "已经是第一页了");
             }
         });
 
-        RxView.clicks(ivBottombannerClose).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
-            @Override
-            public void call(Void aVoid) {
-                rlAdContainer.setVisibility(View.GONE);
-            }
-        });
+        RxView.clicks(ivBottombannerClose).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(aVoid -> rlAdContainer.setVisibility(View.GONE));
 
 
     }
@@ -241,7 +224,7 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
             fragments.add(studyMainFragment);
         }
 
-        StudyMainAdapter mainAdapter = new StudyMainAdapter(getChildFragmentManager(), fragments);
+        StudyMainAdapter mainAdapter = new StudyMainAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, fragments);
         studyViewPager.setAdapter(mainAdapter);
 //        studyViewPager.setOffscreenPageLimit(2);
         studyViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -295,8 +278,10 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
     }
 
     private void showPayDialog() {
-        BasePayFragment basePayFragment = new BasePayFragment();
-        basePayFragment.show(getFragmentManager(), "");
+        if (UserInfoHelper.isLogin(getActivity())) {
+            BasePayFragment basePayFragment = new BasePayFragment();
+            basePayFragment.show(getChildFragmentManager(), "");
+        }
     }
 
     @Override
@@ -318,12 +303,7 @@ public class StudyFragment extends BaseFragment<StudyPresenter> implements Study
 
     @Override
     public void showNoNet() {
-        stateView.showNoNet(container, HttpConfig.NET_ERROR, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getStudyPages();
-            }
-        });
+        stateView.showNoNet(container, HttpConfig.NET_ERROR, v -> mPresenter.getStudyPages());
 
     }
 

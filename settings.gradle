@@ -1,1 +1,2 @@
+include ':rthttplibrary'
 include ':app', ':base', ':rxbus', ':RxTools-library', ':xinqu-video-player', ':share', ':toutiao-adv'

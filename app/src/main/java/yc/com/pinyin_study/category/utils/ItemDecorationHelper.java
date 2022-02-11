@@ -2,11 +2,12 @@ package yc.com.pinyin_study.category.utils;
 
 import android.content.Context;
 import android.graphics.Rect;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
-import com.kk.utils.ScreenUtil;
-import com.vondear.rxtools.RxConstTool;
+import androidx.recyclerview.widget.RecyclerView;
+import yc.com.rthttplibrary.util.ScreenUtil;
+
+
 
 /**
  * Created by wanglin  on 2018/10/25 13:45.

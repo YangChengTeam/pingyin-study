@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ScreenUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.concurrent.TimeUnit;
@@ -29,6 +28,7 @@ import yc.com.pinyin_study.base.fragment.BasePayFragment;
 import yc.com.pinyin_study.index.fragment.VipEquitiesFragment;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
 import yc.com.pinyin_study.study.activity.PrivacyPolicyActivity;
+import yc.com.rthttplibrary.util.ScreenUtil;
 
 
 public abstract class BaseToolBar extends BaseView {
@@ -79,21 +79,11 @@ public abstract class BaseToolBar extends BaseView {
         mActivity = activity;
         activity.setSupportActionBar(mToolbar);
         if (isShowNavigationIcon) {
-            mToolbar.setNavigationOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mActivity.finish();
-                }
-            });
+            mToolbar.setNavigationOnClickListener(v -> mActivity.finish());
         }
 
         if (backClickListener != null) {
-            mToolbar.setNavigationOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    backClickListener.onClick(v);
-                }
-            });
+            mToolbar.setNavigationOnClickListener(v -> backClickListener.onClick(v));
         }
 
 //        Glide.with(mActivity).load(R.mipmap.ic_launcher).asBitmap().centerCrop().into(ivLeftIcon);
@@ -101,7 +91,7 @@ public abstract class BaseToolBar extends BaseView {
         RxView.clicks(toolbarIntroduce).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
-                if (null != clazz && (clazz == WebActivity.class || clazz == PrivacyPolicyActivity.class)) {
+                if ((clazz == WebActivity.class || clazz == PrivacyPolicyActivity.class)) {
                     MobclickAgent.onEvent(mContext, "textbook-reading-click", "课本点读");
 
                     Intent intent = new Intent(activity, clazz);
@@ -121,12 +111,11 @@ public abstract class BaseToolBar extends BaseView {
                 }
             }
         });
-        RxView.clicks(ivLeftIcon).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(new Action1<Void>() {
-            @Override
-            public void call(Void aVoid) {
+        RxView.clicks(ivLeftIcon).throttleFirst(200, TimeUnit.MILLISECONDS).subscribe(aVoid -> {
+            if (UserInfoHelper.isLogin(activity)) {
                 if (!UserInfoHelper.isPhonogramVip()) {
-                    BasePayFragment basePayFragment = new BasePayFragment();
-                    basePayFragment.show(mActivity.getSupportFragmentManager(), "");
+//                        BasePayFragment basePayFragment = new BasePayFragment();
+//                        basePayFragment.show(mActivity.getSupportFragmentManager(), "");
                 }
             }
         });
@@ -165,6 +154,9 @@ public abstract class BaseToolBar extends BaseView {
         mTitleTextView.setTextSize(ScreenUtil.dip2px(mContext, titleSize));
     }
 
+    public void hideLeftIcon() {
+        ivLeftIcon.setVisibility(GONE);
+    }
 
     public void setTvRightTitleAndIcon(String title, int resId) {
         tvRightTitle.setText(title);
@@ -250,5 +242,11 @@ public abstract class BaseToolBar extends BaseView {
             mtoolbarWarpper.setBackgroundColor(ContextCompat.getColor(mContext, resId));
     }
 
+    public void addRightView(View view) {
+        if (view != null) {
+            toolbarIntroduce.removeAllViews();
+            toolbarIntroduce.addView(view);
+        }
+    }
 
 }

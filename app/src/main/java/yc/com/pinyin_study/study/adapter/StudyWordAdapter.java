@@ -2,6 +2,7 @@ package yc.com.pinyin_study.study.adapter;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,13 +37,17 @@ public class StudyWordAdapter extends BaseQuickAdapter<WordInfo, BaseViewHolder>
     protected void convert(BaseViewHolder helper, WordInfo item) {
 
         helper.setText(R.id.tv_essentials_word, item.getWord().replaceAll("#", ""))
-                .setText(R.id.tv_essentials_word_soundmark,
-                        Html.fromHtml(LPUtils.getInstance().addPhraseLetterColor(item.getPronunciation())))
-                .setText(R.id.tv_essentials_word_desp, item.getEn())
 
+                .setText(R.id.tv_essentials_word_desp, item.getEn())
                 .addOnClickListener(R.id.ll_play)
                 .addOnClickListener(R.id.ll_record)
                 .addOnClickListener(R.id.ll_record_playback);
+
+
+        String letterColor = LPUtils.getInstance().addPhraseLetterColor(item.getPronunciation());
+        if (!TextUtils.isEmpty(letterColor)) {
+            helper.setText(R.id.tv_essentials_word_soundmark, Html.fromHtml(letterColor));
+        }
 
         ImageView imageView = helper.getView(R.id.iv_loading);
         RelativeLayout relativeLayout = helper.getView(R.id.rl_action_container);

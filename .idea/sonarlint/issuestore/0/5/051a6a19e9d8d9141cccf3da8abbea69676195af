@@ -1,0 +1,83 @@
+
+`
+java:S2184¸"DCast one of the operands of this subtraction operation to a "float".(§£øÿÿÿÿÿ
+`
+java:S2184¸"DCast one of the operands of this subtraction operation to a "float".(§£øÿÿÿÿÿ
+`
+java:S2184¸"DCast one of the operands of this subtraction operation to a "float".(§£øÿÿÿÿÿ
+]
+java:S2184¸"ACast one of the operands of this addition operation to a "float".(§£øÿÿÿÿÿ
+[
+java:S2184½"DCast one of the operands of this subtraction operation to a "float".(¿ë¿
+[
+java:S2184½"DCast one of the operands of this subtraction operation to a "float".(¿ë¿
+[
+java:S2184¾"DCast one of the operands of this subtraction operation to a "float".(ÕŸ—¬
+`
+java:S2184¿"DCast one of the operands of this subtraction operation to a "float".(Æ·•ûÿÿÿÿ
+[
+java:S2184È"DCast one of the operands of this subtraction operation to a "float".( ø²
+[
+java:S2184È"DCast one of the operands of this subtraction operation to a "float".( ø²
+[
+java:S2184È"DCast one of the operands of this subtraction operation to a "float".( ø²
+X
+java:S2184È"ACast one of the operands of this addition operation to a "float".( ø²
+U
+java:S1155‡">Use isEmpty() to check whether the collection is empty or not.(µùŒ
+?
+java:S1604Û"(Make this anonymous inner class a lambda(¾©ÚÆ
+?
+java:S1604å"(Make this anonymous inner class a lambda(²ğçË
+D
+java:S1604ø"(Make this anonymous inner class a lambda(Éöµëúÿÿÿÿ
+?
+java:S1604"(Make this anonymous inner class a lambda(‰èûÜ
+?
+java:S1604¡"(Make this anonymous inner class a lambda(ì¶üÒ
+D
+java:S1604Ä"(Make this anonymous inner class a lambda( ¿Òüüÿÿÿÿ
+?
+java:S1604Ş"(Make this anonymous inner class a lambda(Ñ–µƒ
+?
+java:S1604‘"(Make this anonymous inner class a lambda(ÊÄ©
+?
+java:S1604Õ"(Make this anonymous inner class a lambda( §Ÿª
+?
+java:S1604ê"(Make this anonymous inner class a lambda( §Ÿª
+D
+java:S1604ı"(Make this anonymous inner class a lambda(ªÅ‹ùÿÿÿÿ
+D
+java:S1604‰"(Make this anonymous inner class a lambda(ïØ»¥øÿÿÿÿ
+˜
+java:S1186²"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‡ß®ä
+R
+java:S2696¡"6Make the enclosing method "static" or remove this set.(ßÉ§‘ûÿÿÿÿ
+Q
+java:S2209¡"5Change this instance-reference to a static reference.(ßÉ§‘ûÿÿÿÿ
+M
+java:S2696¢"6Make the enclosing method "static" or remove this set.(ë•ôµ
+L
+java:S2209¢"5Change this instance-reference to a static reference.(ë•ôµ
+i
+java:S3776Ú"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(ğà”î
+H
+java:S1135ì"2Complete the task associated to this TODO comment.(ÈĞü	
+8	java:S131¦""Add a default case to this switch.(ºÖ
+I
+java:S1135¨"2Complete the task associated to this TODO comment.(ª¨øÓ
+_
+java:S5361¶"HReplace this call to "replaceAll()" by a call to the "replace()" method.(â§úˆ
+˜
+java:S1186“"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¿ò—
+˜
+java:S1186¬"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ú·›°
+I
+java:S1068‹"2Remove this unused "firstLayoutIds" private field.(ü©ş
+W	java:S125Á"<This block of commented-out lines of code should be removed.(ÛÌ†øÿÿÿÿ
+R	java:S125‚"<This block of commented-out lines of code should be removed.(ëÁÄà
+W	java:S125„"<This block of commented-out lines of code should be removed.(Ÿı’»ûÿÿÿÿ
+W	java:S125‹"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ
+R	java:S125Ø"<This block of commented-out lines of code should be removed.(¥ø†
+K
+java:S1144û"/Remove this unused private "startGuide" method.(¢¨Ş·ıÿÿÿÿ

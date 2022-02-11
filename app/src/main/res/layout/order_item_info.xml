@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/study_word_normal"
+    android:orientation="vertical"
+    android:padding="@dimen/t10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_order_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/order_small_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/t5dp"
+            android:layout_toRightOf="@id/iv_order_icon"
+            android:text="@string/order_sn"
+            android:textSize="@dimen/t12sp" />
+
+        <TextView
+            android:id="@+id/tv_order_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/t12sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_order_sn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/t5dp"
+
+        android:textColor="@color/black"
+        android:textSize="@dimen/t14sp"
+        tools:text="201875621332222233" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="@dimen/t15dp"
+        android:layout_marginBottom="@dimen/t10dp"
+        android:background="@drawable/order_divider"
+        android:layerType="software" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="充值："
+                android:textColor="@color/gray_81817e"
+                android:textSize="@dimen/t12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¥"
+                android:textColor="@color/red_f14343"
+                android:textSize="@dimen/t12sp" />
+
+            <TextView
+                android:id="@+id/tv_order_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textColor="@color/red_f14343"
+                android:textSize="@dimen/t16sp"
+                tools:text="256.00" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_state"
+                android:textColor="@color/gray_81817e"
+                android:textSize="@dimen/t12sp" />
+
+
+            <TextView
+                android:id="@+id/tv_order_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/t14sp"
+                tools:text="待支付" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

@@ -17,8 +17,10 @@ import java.util.Map;
 
 import butterknife.BindView;
 import yc.com.base.BaseActivity;
+import yc.com.blankj.utilcode.util.SPUtils;
 import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.base.constant.Config;
+import yc.com.pinyin_study.base.constant.SpConstant;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
 import yc.com.tencent_adv.AdvDispatchManager;
 import yc.com.tencent_adv.AdvType;
@@ -37,7 +39,6 @@ public class SplashActivity extends BaseActivity implements OnAdvStateListener, 
     @BindView(R.id.skip_view)
     TextView skipView;
 
-
     private Handler mHandler = new Handler();
 
     @Override
@@ -47,20 +48,17 @@ public class SplashActivity extends BaseActivity implements OnAdvStateListener, 
 
     @Override
     public void init() {
-        if (UserInfoHelper.isCloseAdv()) {
+
+
+        if (UserInfoHelper.isCloseAdv() || Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR") || !SPUtils.getInstance().getBoolean(SpConstant.INDEX_DIALOG)) {
             splashContainer.setVisibility(View.GONE);
             switchMain(1000);
         } else {
-            if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
+////                AdvDispatchManager.getManager().init(this, AdvType.SPLASH, splashContainer, skipView, Config.TENCENT_ADV, Config.SPLASH_ADV, this)
+            TTAdDispatchManager.getManager().init(this, TTAdType.SPLASH, splashContainer, Config.TOUTIAO_SPLASH_ID, 0, null, 0, null, 0, this);
 
-//                AdvDispatchManager.getManager().init(this, AdvType.SPLASH, splashContainer, skipView, Config.TENCENT_ADV, Config.SPLASH_ADV, this);
-                ivSplash.setVisibility(View.VISIBLE);
-                skipView.setVisibility(View.GONE);
-                switchMain(1000);
-            } else {
-                TTAdDispatchManager.getManager().init(this, TTAdType.SPLASH, splashContainer, Config.TOUTIAO_SPLASH_ID, 0, null, 0, null, 0, this);
-            }
         }
+
     }
 
 
@@ -84,22 +82,22 @@ public class SplashActivity extends BaseActivity implements OnAdvStateListener, 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!UserInfoHelper.isCloseAdv()) {
-            if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
+//        if (!UserInfoHelper.isCloseAdv()) {
+        if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
 //                AdvDispatchManager.getManager().onResume();
-            } else
-                TTAdDispatchManager.getManager().onResume();
+        } else {
+            TTAdDispatchManager.getManager().onResume();
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (!UserInfoHelper.isCloseAdv()) {
-            if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
-//                AdvDispatchManager.getManager().onPause();
-            } else
-                TTAdDispatchManager.getManager().onStop();
+//        if (!UserInfoHelper.isCloseAdv()) {
+        if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
+////                AdvDispatchManager.getManager().onPause();
+        } else {
+            TTAdDispatchManager.getManager().onStop();
         }
     }
 

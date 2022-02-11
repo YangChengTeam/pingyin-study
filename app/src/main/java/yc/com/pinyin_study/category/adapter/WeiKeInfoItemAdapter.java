@@ -15,9 +15,6 @@ import java.util.List;
 import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.category.model.domain.WeiKeCategory;
 
-/**
- * Created by zhangkai on 2017/8/30.
- */
 
 public class WeiKeInfoItemAdapter extends BaseQuickAdapter<WeiKeCategory, BaseViewHolder> {
 

@@ -12,7 +12,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ScreenUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import rx.functions.Action1;
 import yc.com.pinyin_study.R;
+import yc.com.rthttplibrary.util.ScreenUtil;
 
 /**
  * Created by suns  on 2019/11/27 14:22.

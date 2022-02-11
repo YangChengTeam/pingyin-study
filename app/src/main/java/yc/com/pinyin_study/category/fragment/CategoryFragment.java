@@ -13,8 +13,7 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.securityhttp.net.contains.HttpConfig;
-import com.kk.utils.ScreenUtil;
+
 import com.qq.e.ads.nativ.NativeExpressADView;
 
 import java.util.List;
@@ -25,14 +24,17 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import butterknife.BindView;
 import rx.functions.Action1;
 import yc.com.base.BaseActivity;
 import yc.com.base.BaseFragment;
+import yc.com.blankj.utilcode.util.SPUtils;
 import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.base.activity.WebActivity;
 import yc.com.pinyin_study.base.constant.BusAction;
 import yc.com.pinyin_study.base.constant.Config;
+import yc.com.pinyin_study.base.constant.SpConstant;
 import yc.com.pinyin_study.base.widget.MainToolBar;
 import yc.com.pinyin_study.base.widget.StateView;
 import yc.com.pinyin_study.category.activity.WeiKeDetailActivity;
@@ -42,6 +44,8 @@ import yc.com.pinyin_study.category.model.domain.WeiKeCategory;
 import yc.com.pinyin_study.category.presenter.CategoryMainPresenter;
 import yc.com.pinyin_study.category.utils.ItemDecorationHelper;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
+import yc.com.rthttplibrary.config.HttpConfig;
+import yc.com.rthttplibrary.util.ScreenUtil;
 import yc.com.toutiao_adv.OnAdvStateListener;
 import yc.com.toutiao_adv.TTAdDispatchManager;
 import yc.com.toutiao_adv.TTAdType;
@@ -86,17 +90,15 @@ public class CategoryFragment extends BaseFragment<CategoryMainPresenter> implem
 
         mainToolbar.init((BaseActivity) getActivity(), WebActivity.class);
         mainToolbar.setTvRightTitleAndIcon(getString(R.string.diandu), R.mipmap.diandu);
-        if (UserInfoHelper.isCloseAdv()) {
-            topContainer.setVisibility(View.GONE);
-        } else {
-            if (Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
-                topContainer.setVisibility(View.GONE);
-//                AdvDispatchManager.getManager().init(getActivity(), AdvType.BANNER, topContainer, null, Config.TENCENT_ADV, Config.BANNER_TOP_ADV, this);
-            } else {
-
-                TTAdDispatchManager.getManager().init(getActivity(), TTAdType.BANNER, topContainer, Config.TOUTIAO_BANNER2_ID, 0, null, 0, null, 0, this);
-            }
-        }
+//        if (UserInfoHelper.isCloseAdv() || Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
+//            topContainer.setVisibility(View.GONE);
+//        } else {
+////                AdvDispatchManager.getManager().init(getActivity(), AdvType.BANNER, topContainer, null, Config.TENCENT_ADV, Config.BANNER_TOP_ADV, this);
+        if (SPUtils.getInstance().getBoolean(SpConstant.INDEX_DIALOG))
+            TTAdDispatchManager.getManager().init(getActivity(), TTAdType.BANNER, topContainer, Config.TOUTIAO_BANNER2_ID, 0, null, 0, null, 0, this);
+//
+//
+//        }
 
         getData(false);
         categoryRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -124,8 +126,13 @@ public class CategoryFragment extends BaseFragment<CategoryMainPresenter> implem
 //                Intent intent = new Intent(getActivity(), WeikeUnitActivity.class);
 //                intent.putExtra("category_id", categoryMainAdapter.getItem(position).getId());
 //                startActivity(intent);
-            TTAdDispatchManager.getManager().init(getActivity(), TTAdType.REWARD_VIDEO, null, Config.TOUTIAO_REWARD_ID, 0, "解锁微课视频", 12, UserInfoHelper.getUid(), TTAdConstant.VERTICAL, this);
             this.mPos = position;
+//            if (UserInfoHelper.isCloseAdv() || Build.BRAND.toUpperCase().equals("HUAWEI") || Build.BRAND.toUpperCase().equals("HONOR")) {
+//                gotoWeiKeDetail();
+//            } else {
+            TTAdDispatchManager.getManager().init(getActivity(), TTAdType.REWARD_VIDEO, null, Config.TOUTIAO_REWARD_ID, 0, "解锁微课视频", 12, UserInfoHelper.getUid(), TTAdConstant.VERTICAL, this);
+
+//            }
 //
 
         });
@@ -242,12 +249,16 @@ public class CategoryFragment extends BaseFragment<CategoryMainPresenter> implem
 
     @Override
     public void clickAD() {
+        gotoWeiKeDetail();
+    }
+
+
+    private void gotoWeiKeDetail() {
         Intent intent = new Intent(getActivity(), WeiKeDetailActivity.class);
 //
         intent.putExtra("pid", categoryMainAdapter.getItem(mPos).getId());
         startActivity(intent);
     }
-
 
     @Override
     public void onTTNativeExpressed(List<TTNativeExpressAd> ads) {

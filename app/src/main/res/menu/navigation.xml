@@ -28,6 +28,6 @@
         android:id="@+id/navigation_1vs1"
         android:enabled="true"
         android:icon="@drawable/main_1vs1_selector"
-        android:title="@string/main_1vs1" />
+        android:title="@string/mine" />
 
 </menu>

@@ -1,0 +1,12 @@
+
+[
+java:S1128"@Remove this unused import 'yc.com.blankj.utilcode.util.SPUtils'.(Ïüşøÿÿÿÿ
+_
+java:S1128"IRemove this unused import 'yc.com.pinyin_study.base.constant.SpConstant'.(³¹­İ
+1
+java:S3626"Remove this redundant jump.(¸ßœº
+œ
+java:S1186("€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(åí›®ÿÿÿÿÿ
+œ
+java:S1186H"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(åí›®ÿÿÿÿÿ
+V	java:S125%"<This block of commented-out lines of code should be removed.(àè‰³úÿÿÿÿ

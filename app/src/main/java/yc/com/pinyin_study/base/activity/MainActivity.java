@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.kk.utils.LogUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
 import com.vondear.rxtools.RxPermissionsTool;
@@ -16,19 +15,26 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
 import butterknife.BindView;
 import yc.com.base.BaseActivity;
+import yc.com.blankj.utilcode.util.SPUtils;
 import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.base.adapter.MainAdapter;
+import yc.com.pinyin_study.base.constant.SpConstant;
 import yc.com.pinyin_study.base.fragment.ExitFragment;
 import yc.com.pinyin_study.base.utils.UIUtils;
 import yc.com.pinyin_study.category.fragment.CategoryFragment;
 import yc.com.pinyin_study.error.fragment.ErrorFragment;
 import yc.com.pinyin_study.index.fragment.PhoneticFragment;
+import yc.com.pinyin_study.mine.fragment.MineFragment;
+import yc.com.pinyin_study.study.fragment.IndexDialogFragment;
+import yc.com.pinyin_study.study.fragment.PolicyTintFragment;
 import yc.com.pinyin_study.study.fragment.StudyFragment;
 import yc.com.pinyin_study.study.utils.AVMediaManager;
-import yc.com.pinyin_study.study_1vs1.fragment.Study1vs1Fragment;
+import yc.com.rthttplibrary.util.LogUtil;
 
 public class MainActivity extends BaseActivity {
 
@@ -53,10 +59,20 @@ public class MainActivity extends BaseActivity {
         fragments.add(new StudyFragment());
         fragments.add(new CategoryFragment());
         fragments.add(new ErrorFragment());
-        fragments.add(new Study1vs1Fragment());
+//        fragments.add(new Study1vs1Fragment());
+        fragments.add(new MineFragment());
+
+        if (!SPUtils.getInstance().getBoolean(SpConstant.INDEX_DIALOG)) {
+//            IndexDialogFragment indexDialogFragment = new IndexDialogFragment();
+//            indexDialogFragment.show(getChildFragmentManager(), "");
+            PolicyTintFragment policyTintFragment = new PolicyTintFragment();
+            policyTintFragment.show(getSupportFragmentManager(), "");
+            policyTintFragment.setOnGrantListener(this::applyPermission);
+        }
+
         initNavigation();
         initViewPager();
-        applyPermission();
+
         UIUtils.getInstance(this).measureBottomBarHeight(navigation);
     }
 
@@ -66,7 +82,7 @@ public class MainActivity extends BaseActivity {
      */
     private void initViewPager() {
         viewPager.setOffscreenPageLimit(4);
-        MainAdapter mainAdapter = new MainAdapter(getSupportFragmentManager(), fragments);
+        MainAdapter mainAdapter = new MainAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, fragments);
 
         viewPager.setAdapter(mainAdapter);
         viewPager.setCurrentItem(1);
@@ -146,6 +162,7 @@ public class MainActivity extends BaseActivity {
                 exitFragment.dismiss();
                 AVMediaManager.getInstance().releaseAudioManager();
                 finish();
+                android.os.Process.killProcess(android.os.Process.myPid());
                 System.exit(0);
             }
         });

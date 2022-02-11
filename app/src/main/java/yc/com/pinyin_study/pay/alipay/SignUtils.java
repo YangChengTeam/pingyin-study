@@ -1,10 +1,12 @@
 package yc.com.pinyin_study.pay.alipay;
 
-import com.kk.utils.security.Base64;
+
 
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
+
+import yc.com.rthttplibrary.util.Base64;
 
 public class SignUtils {
 

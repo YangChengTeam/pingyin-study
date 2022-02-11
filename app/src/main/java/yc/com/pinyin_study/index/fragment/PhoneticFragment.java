@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ToastUtil;
+
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.concurrent.TimeUnit;
@@ -27,6 +27,8 @@ import yc.com.pinyin_study.index.model.domain.ContactInfo;
 import yc.com.pinyin_study.index.model.domain.IndexInfoWrapper;
 import yc.com.pinyin_study.index.model.domain.UserInfo;
 import yc.com.pinyin_study.index.presenter.IndexPresenter;
+import yc.com.pinyin_study.index.utils.UserInfoHelper;
+import yc.com.rthttplibrary.util.ToastUtil;
 
 /**
  * Created by wanglin  on 2018/10/24 17:21.
@@ -84,7 +86,7 @@ public class PhoneticFragment extends BaseFragment<IndexPresenter> implements In
     private void gotoWeixin() {
 
         try {
-            ToastUtil.toast2(getActivity(), "复制成功，正在前往微信");
+            ToastUtil.toast(getActivity(), "复制成功，正在前往微信");
             Intent intent = new Intent(Intent.ACTION_MAIN);
             ComponentName cmp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI");
             intent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -93,7 +95,7 @@ public class PhoneticFragment extends BaseFragment<IndexPresenter> implements In
             startActivity(intent);
 
         } catch (ActivityNotFoundException e) {
-            ToastUtil.toast2(getActivity(), "检查到您手机没有安装微信，请安装后使用该功能");
+            ToastUtil.toast(getActivity(), "检查到您手机没有安装微信，请安装后使用该功能");
         }
 
     }
@@ -103,12 +105,12 @@ public class PhoneticFragment extends BaseFragment<IndexPresenter> implements In
         if (indexInfoWrapper != null) {
 
             ContactInfo contactInfo = indexInfoWrapper.getContact_info();
-            UserInfo userInfo = indexInfoWrapper.getUserInfo();
+
             if (!TextUtils.isEmpty(contactInfo.getTel()))
                 tvServiceTel.setText(contactInfo.getTel());
             if (!TextUtils.isEmpty(contactInfo.getWeixin()))
                 tvServiceWechat.setText(contactInfo.getWeixin());
-            tvUserid.setText(String.format(getString(R.string.user_id), userInfo.getUid()));
+            tvUserid.setText(String.format(getString(R.string.user_id), UserInfoHelper.getUid()));
         }
     }
 

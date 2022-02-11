@@ -1,19 +1,13 @@
 package yc.com.pinyin_study.study.presenter;
 
 import android.content.Context;
-import android.net.LinkAddress;
 import android.text.TextUtils;
-
-import com.kk.securityhttp.domain.ResultInfo;
-import com.kk.securityhttp.net.contains.HttpConfig;
-import com.kk.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Subscriber;
-import rx.Subscription;
 import yc.com.base.BasePresenter;
+import yc.com.pinyin_study.base.observer.BaseCommonObserver;
 import yc.com.pinyin_study.study.contract.StudyVowelContract;
 import yc.com.pinyin_study.study.model.domain.VowelInfoWrapper;
 import yc.com.pinyin_study.study.model.domain.WordInfo;
@@ -46,22 +40,11 @@ public class StudyVowelPresenter extends BasePresenter<StudyVowelEngine, StudyVo
 //            combinationData(wordInfos, new ArrayList<List<WordInfo>>());
 //        }
 
-
-        Subscription subscription = mEngine.getVowelInfos().subscribe(new Subscriber<ResultInfo<VowelInfoWrapper>>() {
+        mEngine.getVowelInfos().subscribe(new BaseCommonObserver<VowelInfoWrapper>(mContext) {
             @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
-
-            @Override
-            public void onNext(ResultInfo<VowelInfoWrapper> vowelInfoWrapperResultInfo) {
-
-                if (vowelInfoWrapperResultInfo != null && vowelInfoWrapperResultInfo.code == HttpConfig.STATUS_OK && vowelInfoWrapperResultInfo.data != null) {
-                    List<WordInfo> infoList = vowelInfoWrapperResultInfo.data.getList();
+            public void onSuccess(VowelInfoWrapper data, String message) {
+                if (data != null) {
+                    List<WordInfo> infoList = data.getList();
 //                    mView.showVowelInfoList(infoList);
                     SoundmarkHelper.setWordInfos(infoList);
                     List<List<WordInfo>> listList = new ArrayList<>();
@@ -69,11 +52,20 @@ public class StudyVowelPresenter extends BasePresenter<StudyVowelEngine, StudyVo
 
 
                 }
+            }
+
+            @Override
+            public void onFailure(int code, String errorMsg) {
+
+            }
+
+
+            @Override
+            public void onRequestComplete() {
 
             }
         });
 
-        mSubscriptions.add(subscription);
     }
 
 

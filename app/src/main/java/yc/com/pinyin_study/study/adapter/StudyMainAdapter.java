@@ -1,5 +1,6 @@
 package yc.com.pinyin_study.study.adapter;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -15,11 +16,10 @@ import androidx.fragment.app.FragmentTransaction;
 public class StudyMainAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragments;
-    private FragmentManager fm;
 
-    public StudyMainAdapter(FragmentManager fm, List<Fragment> fragmentList) {
-        super(fm);
-        this.fm = fm;
+    public StudyMainAdapter(FragmentManager fm, int behavior, List<Fragment> fragmentList) {
+        super(fm, behavior);
+
         this.fragments = fragmentList;
     }
 
@@ -42,30 +42,31 @@ public class StudyMainAdapter extends FragmentPagerAdapter {
      * @param position
      * @return
      */
-    @Override
-    public Fragment instantiateItem(ViewGroup container, int position) {
-        Fragment fragment = (Fragment) super.instantiateItem(container,
-                position);
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.show(fragment);
-        /**
-         * 使用的 commit方法是在Activity的onSaveInstanceState()之后调用的，这样会出错，因为
-         * onSaveInstanceState方法是在该Activity即将被销毁前调用，来保存Activity数据的，如果在保存玩状态后
-         * 再给它添加Fragment就会出错。解决办法就是把commit（）方法替换成 commitAllowingStateLoss()就行
-         * 了，其效果是一样的。
-         */
-//        fragmentTransaction.commit();
-        fragmentTransaction.commitAllowingStateLoss();
-        return fragment;
-    }
+//    @Override
+//    public Fragment instantiateItem(ViewGroup container, int position) {
+//        Fragment fragment = (Fragment) super.instantiateItem(container,
+//                position);
+//        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//        fragmentTransaction.show(fragment);
+//        /**
+//         * 使用的 commit方法是在Activity的onSaveInstanceState()之后调用的，这样会出错，因为
+//         * onSaveInstanceState方法是在该Activity即将被销毁前调用，来保存Activity数据的，如果在保存玩状态后
+//         * 再给它添加Fragment就会出错。解决办法就是把commit（）方法替换成 commitAllowingStateLoss()就行
+//         * 了，其效果是一样的。
+//         */
+////        fragmentTransaction.commit();
+//        fragmentTransaction.commitAllowingStateLoss();
+//        return fragments.get(position);
+//    }
 
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        Fragment fragment = fragments.get(position);
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        if (fragment != null) {
-            fragmentTransaction.hide(fragment);
-        }
-        fragmentTransaction.commitAllowingStateLoss();
-    }
+//    @Override
+//    public void destroyItem(ViewGroup container, int position, Object object) {
+////        Fragment fragment = fragments.get(position);
+////        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+////        if (fragment != null) {
+////            fragmentTransaction.hide(fragment);
+////        }
+////        fragmentTransaction.commitAllowingStateLoss();
+//        container.removeView((View) object);
+//    }
 }

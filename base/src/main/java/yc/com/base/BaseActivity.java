@@ -140,9 +140,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     /**
      * 改变获取验证码按钮状态
      */
-    public void showGetCodeDisplay(TextView textView) {
-        taskRunnable = new MyRunnable(textView);
+    public void showGetCodeDisplay(TextView textView, TextView textView2) {
+        taskRunnable = new MyRunnable(textView, textView2);
         if (null != mHandler) {
+            textView.setVisibility(View.GONE);
+            textView2.setVisibility(View.VISIBLE);
             mHandler.removeCallbacks(taskRunnable);
             mHandler.removeMessages(0);
             totalTime = 60;
@@ -161,18 +163,20 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     private class MyRunnable implements Runnable {
         TextView mTv;
+        TextView mTv2;
 
-        public MyRunnable(TextView textView) {
+        public MyRunnable(TextView textView, TextView textView2) {
             this.mTv = textView;
+            this.mTv2 = textView2;
         }
 
         @Override
         public void run() {
-            mTv.setText(totalTime + "秒后重试");
+            mTv2.setText(totalTime + "s");
             totalTime--;
             if (totalTime < 0) {
                 //还原
-                initGetCodeBtn(mTv);
+                initGetCodeBtn(mTv, mTv2);
                 return;
             }
             if (null != mHandler) mHandler.postDelayed(this, 1000);
@@ -183,13 +187,15 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     /**
      * 还原获取验证码按钮状态
      */
-    private void initGetCodeBtn(TextView textView) {
+    private void initGetCodeBtn(TextView textView, TextView mTv2) {
         totalTime = 0;
         if (null != taskRunnable && null != mHandler) {
             mHandler.removeCallbacks(taskRunnable);
             mHandler.removeMessages(0);
         }
-        textView.setText("重新获取");
+//        textView.setText("重新获取");
+        textView.setVisibility(View.VISIBLE);
+        mTv2.setVisibility(View.GONE);
         textView.setClickable(true);
 //        textView.setTextColor(CommonUtils.getColor(R.color.white));
 //        textView.setBackgroundResource(R.drawable.bg_btn_get_code_true);

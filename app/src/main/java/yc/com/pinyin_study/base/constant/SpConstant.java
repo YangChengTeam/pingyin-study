@@ -25,4 +25,10 @@ public class SpConstant {
     public static String IS_SHARE = "is_share";
 
     public static String INDEX_DIALOG = "index_dialog";
+
+    public static final String USER_PHONE = "user_phone";
+
+    public static final String USER_VIP = "pinyin_study_vip";
+
+    public static final String CONTACT_INFO = "contact_info";
 }

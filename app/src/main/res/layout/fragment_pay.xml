@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/pay_top_bg"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/status_bar_height">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_sub"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <ImageView
+                android:id="@+id/iv_left_icon"
+                android:layout_width="@dimen/t20dp"
+                android:layout_height="@dimen/t20dp"
+                android:src="@mipmap/base_back" />
+
+            <TextView
+                android:id="@+id/tv_tb_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/dredge_vip"
+                android:textColor="@color/white"
+                android:textSize="@dimen/t20sp" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/t15dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/balance"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="永久会员，功能使用不过期"
+                android:textColor="@color/white"
+                android:textSize="@dimen/t18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/payInfo_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/t15dp"
+                android:layout_marginRight="@dimen/t15dp"
+
+                android:background="@drawable/vip_item_white_bg"
+                android:padding="@dimen/t10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/t15dp"
+                android:paddingTop="@dimen/t8dp"
+                android:paddingRight="@dimen/t15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="选择支付方式"
+                    android:textSize="@dimen/t12sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/t8dp"
+                    android:background="@drawable/vip_item_white_bg"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_ali"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/t10dp">
+
+                        <ImageView
+                            android:id="@+id/iv_ali"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/payway_ali" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/t15dp"
+                            android:layout_toRightOf="@id/iv_ali"
+                            android:text="@string/ali" />
+
+                        <ImageView
+                            android:id="@+id/iv_ali_select"
+                            android:layout_width="@dimen/t21dp"
+                            android:layout_height="@dimen/t21dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/t8dp"
+                            android:src="@drawable/pay_info_item_selector" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="@dimen/t50dp"
+                        android:layout_marginRight="@dimen/t10dp"
+                        android:background="@color/gray_f4efee" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_wx"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/t10dp">
+
+                        <ImageView
+                            android:id="@+id/iv_wx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/payway_wx" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/t15dp"
+                            android:layout_toRightOf="@id/iv_wx"
+                            android:text="@string/wx" />
+
+                        <ImageView
+                            android:id="@+id/iv_wx_select"
+                            android:layout_width="@dimen/t21dp"
+                            android:layout_height="@dimen/t21dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/t8dp"
+                            android:src="@drawable/pay_info_item_selector" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_pay_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/t10dp"
+                android:src="@mipmap/pay_btn_bg" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</LinearLayout>

@@ -14,8 +14,8 @@ public class MainAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> mFragmentList;
 
-    public MainAdapter(FragmentManager fm, List<Fragment> fragmentList) {
-        super(fm);
+    public MainAdapter(FragmentManager fm, int behavior, List<Fragment> fragmentList) {
+        super(fm, behavior);
         this.mFragmentList = fragmentList;
     }
 

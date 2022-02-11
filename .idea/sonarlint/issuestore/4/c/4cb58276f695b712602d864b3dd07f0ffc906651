@@ -1,0 +1,39 @@
+
+>
+java:S1604‹"(Make this anonymous inner class a lambda(­Â×q
+R	java:S125é"<This block of commented-out lines of code should be removed.(…ˆÛî
+˜
+java:S1186‡"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(À›£Û
+P
+java:S2209x"5Change this instance-reference to a static reference.(ßÉ§‘ûÿÿÿÿ
+D
+java:S1604À"(Make this anonymous inner class a lambda(ÒÆ‚¦ÿÿÿÿÿ
+—
+java:S1186ý"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‹‚æ\
+
+java:S1186Œ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(õí±Öÿÿÿÿÿ
+D
+java:S1604·"(Make this anonymous inner class a lambda(¾ÝÒâøÿÿÿÿ
+]
+java:S1192ß"FDefine a constant instead of duplicating this literal "utf-8" 3 times.(ÒŸ»·
+W	java:S125â"<This block of commented-out lines of code should be removed.(ñè¦öøÿÿÿÿ
+F
+java:S1066Ä"/Merge this if statement with the enclosing one.(°ó 
+B
+java:S10684"'Remove this unused "TAG" private field.(–âêéÿÿÿÿÿ
+W	java:S125º"<This block of commented-out lines of code should be removed.(ž«ö‹ûÿÿÿÿ
+Q
+java:S2696x"6Make the enclosing method "static" or remove this set.(ßÉ§‘ûÿÿÿÿ
+R	java:S1103"=This class has 10 parents which is greater than 5 authorized.(Å‰Ï
+R	java:S125Ø"<This block of commented-out lines of code should be removed.(×“å
+˜
+java:S1186‚"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(²„È÷
+W	java:S125¸"<This block of commented-out lines of code should be removed.(½³Æ‘úÿÿÿÿ
+K
+java:S2209y"5Change this instance-reference to a static reference.(ë•ôµ
+n
+java:S3252Ø"WUse static access with "com.xinqu.videoplayer.XinQuVideoPlayer" for "releaseAllVideos".(€™ã
+p
+java:S3252Û"YUse static access with "com.xinqu.videoplayer.XinQuVideoPlayer" for "clearSavedProgress".(Ñ‚Ð
+L
+java:S2696y"6Make the enclosing method "static" or remove this set.(ë•ôµ

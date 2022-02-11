@@ -21,18 +21,18 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.securityhttp.net.contains.HttpConfig;
-import com.kk.utils.ScreenUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.xinqu.videoplayer.XinQuVideoPlayer;
 import com.xinqu.videoplayer.XinQuVideoPlayerStandard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.BindView;
 import rx.functions.Action1;
 import yc.com.base.BaseFragment;
@@ -56,6 +56,8 @@ import yc.com.pinyin_study.study.utils.ObserverManager;
 import yc.com.pinyin_study.study.utils.PpAudioManager;
 import yc.com.pinyin_study.study.widget.CommonScrollView;
 import yc.com.pinyin_study.study.widget.MediaPlayerView;
+import yc.com.rthttplibrary.config.HttpConfig;
+import yc.com.rthttplibrary.util.ScreenUtil;
 
 /**
  * Created by wanglin  on 2018/10/26 16:23.
@@ -235,7 +237,7 @@ public class StudyMainFragment extends BaseFragment<StudyPresenter> implements S
                 } else {
                     //todo 播放并录音
                     playStep = 1;
-                    mListener.playAssetFile("guide_01.mp3",false, playStep);
+                    mListener.playAssetFile("guide_01.mp3", false, playStep);
                     if (mStudyInfo != null) {
                         tvPracticeSoundmark.setVisibility(View.VISIBLE);
                         tvPracticeSoundmark.setText(mStudyInfo.getName());
@@ -267,84 +269,75 @@ public class StudyMainFragment extends BaseFragment<StudyPresenter> implements S
 //            }
 //        });
 
-        studyWordAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        studyWordAdapter.setOnItemClickListener((adapter, view, position) -> {
 
-                playImg = (ImageView) adapter.getViewByPosition(applyRecyclerView, position, R.id.iv_play);
-                currentView = playImg;
-                layoutResult = (LinearLayout) adapter.getViewByPosition(applyRecyclerView, position, R.id.layout_result);
+            playImg = (ImageView) adapter.getViewByPosition(applyRecyclerView, position, R.id.iv_play);
+            currentView = playImg;
+            layoutResult = (LinearLayout) adapter.getViewByPosition(applyRecyclerView, position, R.id.layout_result);
 
-                studyWordAdapter.startAnimation(position);
-                studyWordAdapter.showActionContainer(position);
+            studyWordAdapter.startAnimation(position);
+            studyWordAdapter.showActionContainer(position);
 
-                resetState();
-                view.setSelected(true);
+            resetState();
+            view.setSelected(true);
 
-                currentInfo = studyWordAdapter.getItem(position);
-                startPlay();
-            }
+            currentInfo = studyWordAdapter.getItem(position);
+            startPlay();
         });
 
-        studyWordAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public boolean onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                layoutResult = (LinearLayout) adapter.getViewByPosition(applyRecyclerView, position, R.id.layout_result);
-                currentInfo = studyWordAdapter.getItem(position);
-                switch (view.getId()) {
-                    case R.id.ll_play:
-                        // TODO: 2018/11/1 播放
-                        playImg = (ImageView) adapter.getViewByPosition(applyRecyclerView, position, R.id.iv_play);
-                        currentView = playImg;
-                        startPlay();
-                        break;
-                    case R.id.ll_record:
-                        if (currentInfo == null) return false;
-                        recordImg = (ImageView) adapter.getViewByPosition(applyRecyclerView, position, R.id.iv_record);
+        studyWordAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            layoutResult = (LinearLayout) adapter.getViewByPosition(applyRecyclerView, position, R.id.layout_result);
+            currentInfo = studyWordAdapter.getItem(position);
+            switch (view.getId()) {
+                case R.id.ll_play:
+                    // TODO: 2018/11/1 播放
+                    playImg = (ImageView) adapter.getViewByPosition(applyRecyclerView, position, R.id.iv_play);
+                    currentView = playImg;
+                    startPlay();
+                    break;
+                case R.id.ll_record:
+                    if (currentInfo == null) return;
+                    recordImg = (ImageView) adapter.getViewByPosition(applyRecyclerView, position, R.id.iv_record);
 
-                        ivSpeakResult = (ImageView) adapter.getViewByPosition(applyRecyclerView, position, R.id.iv_speak_result);
-                        tvResultHint = (TextView) adapter.getViewByPosition(applyRecyclerView, position, R.id.tv_result_hint);
-                        if (avManagerListener.isRecording()) {
-                            avManagerListener.stopRecord();
-                        } else {
-                            avManagerListener.startRecordAndSynthesis(currentInfo.getWord().replaceAll("#", ""), true);
-                        }
-                        break;
-                    case R.id.ll_record_playback:
-                        ivRecordPlayback = (ImageView) adapter.getViewByPosition(applyRecyclerView, position, R.id.iv_record_playback);
-                        avManagerListener.playRecordFile();
-                        break;
-                }
-
-                return false;
-            }
-        });
-
-
-        nestedScrollView.setOnScrollListener(new CommonScrollView.onScrollListener() {
-            @Override
-            public void onScroll(int l, int scrollY, int oldl, int oldScrollY) {
-
-                if (!isFirst) {
-                    int[] position = new int[2];
-                    llTopTint.getLocationOnScreen(position);
-                    int measuredHeight = llTopTint.getMeasuredHeight();
-                    int toolBarHeight = UIUtils.getInstance(getActivity()).getLocation()[1];
-
-                    int scrollHeight = position[1] + measuredHeight - toolBarHeight;
-
-                    if (scrollHeight <= 0) {
-                        ObserverManager.getInstance().notifyMyObservers("消失了");
+                    ivSpeakResult = (ImageView) adapter.getViewByPosition(applyRecyclerView, position, R.id.iv_speak_result);
+                    tvResultHint = (TextView) adapter.getViewByPosition(applyRecyclerView, position, R.id.tv_result_hint);
+                    if (avManagerListener.isRecording()) {
+                        avManagerListener.stopRecord();
                     } else {
-                        ObserverManager.getInstance().notifyMyObservers("出现了");
+                        avManagerListener.startRecordAndSynthesis(currentInfo.getWord().replaceAll("#", ""), true);
                     }
+                    break;
+                case R.id.ll_record_playback:
+                    ivRecordPlayback = (ImageView) adapter.getViewByPosition(applyRecyclerView, position, R.id.iv_record_playback);
+                    avManagerListener.playRecordFile();
+                    break;
+            }
+
+
+        });
+
+
+        nestedScrollView.setOnScrollListener((l, scrollY, oldl, oldScrollY) -> {
+
+            if (!isFirst) {
+                int[] position = new int[2];
+                llTopTint.getLocationOnScreen(position);
+                int measuredHeight = llTopTint.getMeasuredHeight();
+                int toolBarHeight = UIUtils.getInstance(getActivity()).getLocation()[1];
+
+                int scrollHeight = position[1] + measuredHeight - toolBarHeight;
+
+                if (scrollHeight <= 0) {
+                    ObserverManager.getInstance().notifyMyObservers("消失了");
+                } else {
+                    ObserverManager.getInstance().notifyMyObservers("出现了");
                 }
+            }
 //                LogUtil.msg("scrollY==" + scrollY + "   oldScrollY==" + oldScrollY + "--position="
 //                        + scrollHeight
 //                        + "--height=" + measuredHeight + "--pos=" + position[1]);
 
 
-            }
         });
 
         mediaPlayerView.setOnMediaClickListener(new MediaPlayerView.onMediaClickListener() {
@@ -398,12 +391,7 @@ public class StudyMainFragment extends BaseFragment<StudyPresenter> implements S
 
                         .setLayoutRes(layoutIds[i], R.id.iv_next)
 
-                        .setOnLayoutInflatedListener(new OnLayoutInflatedListener() {
-                            @Override
-                            public void onLayoutInflated(View view, final Controller controller) {
-
-
-                            }
+                        .setOnLayoutInflatedListener((view, controller) -> {
 
 
                         }));
@@ -466,40 +454,32 @@ public class StudyMainFragment extends BaseFragment<StudyPresenter> implements S
 
 
     private void practiceGuide(final RectF rect, final RectF rectF) {
-        llPracticeContainer.post(new Runnable() {
-            @Override
-            public void run() {
-                Builder builder = getBuilder("guide2", 2, 0);
-                builder.addGuidePage(GuidePage.newInstance()
-                        .addHighLight(rect, HighLight.Shape.RECTANGLE, 16)
-                        .setEverywhereCancelable(false)
-                        .setLayoutRes(R.layout.study_practice_guide, R.id.iv_next))
-                        .addGuidePage(GuidePage.newInstance()
-                                .addHighLight(rectF, HighLight.Shape.RECTANGLE, 16)
-                                .setEverywhereCancelable(false)
-                                .setLayoutRes(R.layout.study_essentials_guide, R.id.iv_next));
+        llPracticeContainer.post(() -> {
+            Builder builder = getBuilder("guide2", 2, 0);
+            builder.addGuidePage(GuidePage.newInstance()
+                    .addHighLight(rect, HighLight.Shape.RECTANGLE, 16)
+                    .setEverywhereCancelable(false)
+                    .setLayoutRes(R.layout.study_practice_guide, R.id.iv_next))
+                    .addGuidePage(GuidePage.newInstance()
+                            .addHighLight(rectF, HighLight.Shape.RECTANGLE, 16)
+                            .setEverywhereCancelable(false)
+                            .setLayoutRes(R.layout.study_essentials_guide, R.id.iv_next));
 
 
-                builder.show();
-            }
-
+            builder.show();
         });
     }
 
     private void applyGuide(final RectF rect) {
-        llPracticeContainer.post(new Runnable() {
-            @Override
-            public void run() {
-                Builder builder = getBuilder("guide3", 3, 0);
-                builder.addGuidePage(GuidePage.newInstance()
-                        .addHighLight(rect, HighLight.Shape.RECTANGLE, 16)
-                        .setEverywhereCancelable(false)
-                        .setLayoutRes(R.layout.study_apply_guide, R.id.iv_next));
+        llPracticeContainer.post(() -> {
+            Builder builder = getBuilder("guide3", 3, 0);
+            builder.addGuidePage(GuidePage.newInstance()
+                    .addHighLight(rect, HighLight.Shape.RECTANGLE, 16)
+                    .setEverywhereCancelable(false)
+                    .setLayoutRes(R.layout.study_apply_guide, R.id.iv_next));
 
 
-                builder.show();
-            }
-
+            builder.show();
         });
     }
 
@@ -545,14 +525,15 @@ public class StudyMainFragment extends BaseFragment<StudyPresenter> implements S
     public void onDestroy() {
         super.onDestroy();
         mediaPlayerView.destroy();
-        avManagerListener.destroy();
+        if (avManagerListener != null)
+            avManagerListener.destroy();
     }
 
 
     @Override
     public void playBeforeUpdateUI() {
         if (currentView == ivPerceptionVoice) {
-            Glide.with(getActivity()).asGif().load(R.mipmap.small_trumpet_stop).into(ivPerceptionVoice);
+            Glide.with(Objects.requireNonNull(getActivity())).asGif().load(R.mipmap.small_trumpet_stop).into(ivPerceptionVoice);
         } else if (currentView == playImg) {
             studyWordAdapter.resetDrawable();
             layoutResult.setVisibility(View.GONE);
@@ -590,7 +571,7 @@ public class StudyMainFragment extends BaseFragment<StudyPresenter> implements S
     public void playPracticeSecondUpdateUI() {
 
         playStep = 3;
-        mListener.playAssetFile("user_tape_tips.mp3", false,playStep);
+        mListener.playAssetFile("user_tape_tips.mp3", false, playStep);
     }
 
     @Override
@@ -623,7 +604,7 @@ public class StudyMainFragment extends BaseFragment<StudyPresenter> implements S
     @Override
     public void playPracticeThirdUpdateUI() {
         playStep = 1;
-        mListener.playAssetFile("guide_02.mp3",false, playStep);
+        mListener.playAssetFile("guide_02.mp3", false, playStep);
         ivTopCarton.setVisibility(View.GONE);
     }
 

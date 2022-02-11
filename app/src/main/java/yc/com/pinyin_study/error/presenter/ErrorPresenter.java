@@ -2,12 +2,8 @@ package yc.com.pinyin_study.error.presenter;
 
 import android.content.Context;
 
-import com.kk.securityhttp.domain.ResultInfo;
-import com.kk.securityhttp.net.contains.HttpConfig;
-
-import rx.Subscriber;
-import rx.Subscription;
 import yc.com.base.BasePresenter;
+import yc.com.pinyin_study.base.observer.BaseCommonObserver;
 import yc.com.pinyin_study.error.contract.ErrorContract;
 import yc.com.pinyin_study.error.model.bean.ErrorInfo;
 import yc.com.pinyin_study.error.model.bean.ErrorInfoList;
@@ -30,58 +26,60 @@ public class ErrorPresenter extends BasePresenter<ErrorEngine, ErrorContract.Vie
     @Override
     public void getErrorInfoList() {
         mView.showLoading();
-        Subscription subscription = mEngine.getErrorInfoList().subscribe(new Subscriber<ResultInfo<ErrorInfoList>>() {
-            @Override
-            public void onCompleted() {
 
-            }
-
+        mEngine.getErrorInfoList().subscribe(new BaseCommonObserver<ErrorInfoList>(mContext) {
             @Override
-            public void onError(Throwable e) {
-                mView.showNoNet();
-            }
-
-            @Override
-            public void onNext(ResultInfo<ErrorInfoList> errorInfoListResultInfo) {
-                if (errorInfoListResultInfo != null && errorInfoListResultInfo.code == HttpConfig.STATUS_OK && errorInfoListResultInfo.data != null && errorInfoListResultInfo.data.getList() != null) {
-                    mView.showErrorList(errorInfoListResultInfo.data.getList());
+            public void onSuccess(ErrorInfoList errorInfoListResultInfo, String message) {
+                if (errorInfoListResultInfo != null && errorInfoListResultInfo.getList() != null) {
+                    mView.showErrorList(errorInfoListResultInfo.getList());
                     mView.hide();
                 } else {
                     mView.showNoNet();
                 }
             }
+
+            @Override
+            public void onFailure(int code, String errorMsg) {
+                mView.showNoNet();
+            }
+
+
+
+            @Override
+            public void onRequestComplete() {
+
+            }
         });
-        mSubscriptions.add(subscription);
+
+
     }
 
     @Override
     public void getErrorInfo(String id) {
         mView.showLoading();
-        Subscription subscription = mEngine.getErrorInfo(id).subscribe(new Subscriber<ResultInfo<ErrorInfo>>() {
+        mEngine.getErrorInfo(id).subscribe(new BaseCommonObserver<ErrorInfo>(mContext) {
             @Override
-            public void onCompleted() {
+            public void onSuccess(ErrorInfo errorInfoResultInfo, String message) {
+                if (errorInfoResultInfo != null) {
+                    mView.hide();
+                    mView.showErrorDetail(errorInfoResultInfo);
+                } else {
+                    mView.showNoData();
+                }
 
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onFailure(int code, String errorMsg) {
                 mView.showNoNet();
             }
 
+
             @Override
-            public void onNext(ResultInfo<ErrorInfo> errorInfoResultInfo) {
-                if (errorInfoResultInfo != null) {
-                    if (errorInfoResultInfo.code == HttpConfig.STATUS_OK && errorInfoResultInfo.data != null) {
-                        mView.hide();
-                        mView.showErrorDetail(errorInfoResultInfo.data);
-                    } else {
-                        mView.showNoData();
-                    }
-                } else {
-                    mView.showNoNet();
-                }
+            public void onRequestComplete() {
+
             }
         });
-        mSubscriptions.add(subscription);
+
     }
 }

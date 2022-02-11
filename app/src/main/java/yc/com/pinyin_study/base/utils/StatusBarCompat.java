@@ -6,11 +6,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.kk.utils.ScreenUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import androidx.core.content.ContextCompat;
 import yc.com.base.BaseActivity;
+import yc.com.rthttplibrary.util.ScreenUtil;
 
 /**
  * Created by zhangkai on 2017/11/27.

@@ -1,8 +1,12 @@
 package yc.com.base;
 
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +28,7 @@ public class UIUtils {
 
     /**
      * 判断是否是常用11位数手机号
+     *
      * @param phoneNumber
      * @return
      */
@@ -35,18 +40,45 @@ public class UIUtils {
 
     /**
      * 是否是6或者4位数字验证码
+     *
      * @param phoneNumber
-     * @param type 6 或 4
+     * @param type        6 或 4
      * @return
      */
-    public static boolean isNumberCode(String phoneNumber,int type) {
-        String rex="^\\d{4}$";
-        if(type==6){
-            rex="^\\d{6}$";
+    public static boolean isNumberCode(String phoneNumber, int type) {
+        String rex = "^\\d{4}$";
+        if (type == 6) {
+            rex = "^\\d{6}$";
         }
         Pattern p = Pattern.compile(rex);
         Matcher m = p.matcher(phoneNumber);
         return m.matches();
     }
 
+    //是否是指定机型
+    public static boolean isAssignPhone() {
+        return TextUtils.equals("xiaomi", Build.BRAND.toLowerCase()) || TextUtils.equals("huawei", Build.BRAND.toLowerCase()) || TextUtils.equals("honor", Build.BRAND.toLowerCase());
+    }
+
+    public static int getIdentifier(Context context, String name) {
+        return getIdentifier(context, name, "id");
+    }
+
+    private static Resources mResources = null;
+    private static String mPackageName = null;
+
+    private static int getIdentifier(Context context, String name, String defType) {
+        if (mResources == null) {
+            mResources = context.getResources();
+        }
+        return mResources.getIdentifier(name, defType, getPackageName(context));
+    }
+
+
+    private static String getPackageName(Context context) {
+        if (mPackageName == null) {
+            mPackageName = context.getPackageName();
+        }
+        return mPackageName;
+    }
 }

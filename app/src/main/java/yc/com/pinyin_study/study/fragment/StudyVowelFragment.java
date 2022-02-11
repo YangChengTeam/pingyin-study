@@ -11,7 +11,6 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.utils.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.BindView;
 import rx.functions.Action1;
 import yc.com.base.BaseDialogFragment;
@@ -31,6 +31,7 @@ import yc.com.pinyin_study.study.adapter.StudyVowelAdapter;
 import yc.com.pinyin_study.study.contract.StudyVowelContract;
 import yc.com.pinyin_study.study.model.domain.WordInfo;
 import yc.com.pinyin_study.study.presenter.StudyVowelPresenter;
+import yc.com.rthttplibrary.util.ScreenUtil;
 
 /**
  * Created by wanglin  on 2018/11/1 09:01.
@@ -57,7 +58,7 @@ public class StudyVowelFragment extends BaseDialogFragment<StudyVowelPresenter> 
 
     @Override
     public int getHeight() {
-        return ScreenUtil.getHeight(getActivity()) * 7 / 10;
+        return ScreenUtil.getHeight(requireActivity()) * 7 / 10;
     }
 
     @Override
@@ -97,7 +98,7 @@ public class StudyVowelFragment extends BaseDialogFragment<StudyVowelPresenter> 
             vowelAdapterList = new ArrayList<>();
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             for (List<WordInfo> wordInfos : wordInfoList) {
-                RecyclerView recyclerView = new RecyclerView(getActivity());
+                RecyclerView recyclerView = new RecyclerView(requireActivity());
                 recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
                 final StudyVowelAdapter studyVowelAdapter = new StudyVowelAdapter(wordInfos);
                 recyclerView.setAdapter(studyVowelAdapter);
@@ -109,15 +110,17 @@ public class StudyVowelFragment extends BaseDialogFragment<StudyVowelPresenter> 
                     @Override
                     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                         WordInfo wordInfo = studyVowelAdapter.getItem(position);
-                        if (UserInfoHelper.isPhonogramVip() || wordInfo.getIs_vip() == 0) {
-                            if (clickListener != null) {
-                                clickListener.onClick(wordInfo.getPage());
-                                dismiss();
-                            }
-                        } else {
-                            BasePayFragment basePayFragment = new BasePayFragment();
-                            basePayFragment.show(getChildFragmentManager(), "");
+//                        if (UserInfoHelper.isPhonogramVip() || wordInfo.getIs_vip() == 0) {
+                        if (clickListener != null && wordInfo != null) {
+                            clickListener.onClick(wordInfo.getPage());
+                            dismiss();
                         }
+//                        } else {
+//                            if (UserInfoHelper.isLogin(getActivity())) {
+//                                BasePayFragment basePayFragment = new BasePayFragment();
+//                                basePayFragment.show(getChildFragmentManager(), "");
+//                            }
+//                        }
 
                     }
                 });

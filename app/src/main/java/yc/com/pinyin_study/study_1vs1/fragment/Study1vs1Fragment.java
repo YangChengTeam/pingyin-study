@@ -10,17 +10,11 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import com.alibaba.fastjson.JSON;
-import com.hwangjr.rxbus.RxBus;
-import com.kk.securityhttp.domain.ResultInfo;
-import com.kk.securityhttp.net.contains.HttpConfig;
-import com.kk.utils.ToastUtil;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
-import rx.functions.Action1;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import yc.com.base.BaseActivity;
 import yc.com.base.BaseFragment;
 import yc.com.blankj.utilcode.util.SPUtils;
@@ -30,6 +24,8 @@ import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.base.activity.WebActivity;
 import yc.com.pinyin_study.base.constant.Config;
 import yc.com.pinyin_study.base.constant.SpConstant;
+import yc.com.pinyin_study.base.httpinterface.HttpRequestInterface;
+import yc.com.pinyin_study.base.observer.BaseCommonObserver;
 import yc.com.pinyin_study.base.widget.CommonWebView;
 import yc.com.pinyin_study.base.widget.MainToolBar;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
@@ -38,8 +34,9 @@ import yc.com.pinyin_study.pay.alipay.IPayCallback;
 import yc.com.pinyin_study.pay.alipay.IWXPay1Impl;
 import yc.com.pinyin_study.pay.alipay.LoadingDialog;
 import yc.com.pinyin_study.pay.alipay.OrderInfo;
-import yc.com.pinyin_study.study.utils.EngineUtils;
 import yc.com.pinyin_study.study_1vs1.model.bean.SlideInfo;
+import yc.com.rthttplibrary.request.RetrofitHttpRequest;
+import yc.com.rthttplibrary.util.ToastUtil;
 
 /**
  * Created by wanglin  on 2018/10/24 17:21.
@@ -131,29 +128,41 @@ public class Study1vs1Fragment extends BaseFragment {
 
             showLoading();
             final String finalPaywayname = paywayname;
-            EngineUtils.createOrder(getActivity(), 1, paywayname, money, id)
-                    .subscribe(new Action1<ResultInfo<OrderInfo>>() {
-                                   @Override
-                                   public void call(ResultInfo<OrderInfo> orderInfoResultInfo) {
-                                       dismissLoading();
-                                       if (orderInfoResultInfo != null) {
-                                           if (orderInfoResultInfo.code == HttpConfig.STATUS_OK && orderInfoResultInfo.data != null) {
-                                               OrderInfo orderInfo = orderInfoResultInfo.data;
-                                               orderInfo.setMoney(Float.parseFloat(money));
-                                               orderInfo.setName(title);
-                                               if (finalPaywayname.equals("alipay")) {
-                                                   iAliPay.pay(orderInfo, payCallBack);
-                                               } else {
-                                                   iwxPay.pay(orderInfo, payCallBack);
-                                               }
-                                           } else {
-                                               ToastUtil.toast2(getActivity(), orderInfoResultInfo.message);
-                                           }
-                                       }
 
-                                   }
-                               }
-                    );
+            RetrofitHttpRequest.get(getActivity()).create(HttpRequestInterface.class)
+                    .createOrder(1, paywayname, money, id, UserInfoHelper.getUid())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseCommonObserver<OrderInfo>(getActivity()) {
+                        @Override
+                        public void onSuccess(OrderInfo orderInfo, String message) {
+                            dismissLoading();
+
+                            if (orderInfo != null) {
+
+                                orderInfo.setMoney(Float.parseFloat(money));
+                                orderInfo.setName(title);
+                                if (finalPaywayname.equals("alipay")) {
+                                    iAliPay.pay(orderInfo, payCallBack);
+                                } else {
+                                    iwxPay.pay(orderInfo, payCallBack);
+                                }
+                            } else {
+                                ToastUtil.toast(getActivity(), message);
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(int code, String errorMsg) {
+
+                        }
+
+                        @Override
+                        public void onRequestComplete() {
+
+                        }
+                    });
 
 
         }

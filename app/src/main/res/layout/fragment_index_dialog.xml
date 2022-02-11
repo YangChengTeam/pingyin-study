@@ -9,18 +9,18 @@
         android:layout_height="match_parent"
         android:background="@drawable/index_privacy_bg"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/dp_30"
-        android:paddingEnd="@dimen/t5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="@dimen/t5dp"
         android:paddingStart="5dp"
-        android:paddingTop="@dimen/t15dp">
+        android:paddingLeft="5dp"
+        android:paddingTop="@dimen/t15dp"
+        android:paddingEnd="@dimen/t5dp"
+        android:paddingRight="@dimen/t5dp"
+        android:paddingBottom="@dimen/dp_30">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="用户协议"
+            android:text="用户协议与隐私政策"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -29,6 +29,7 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/tv_privacy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -51,8 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:checked="true"
-            android:text="我已阅读并同意该用户协议" />
+
+            android:text="我已阅读并同意该用户协议与隐私政策" />
 
 
         <TextView
@@ -62,10 +63,10 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@color/app_selected_color"
-            android:paddingBottom="10dp"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
             android:paddingTop="10dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="10dp"
             android:text="进入应用"
             android:textColor="@color/white" />
 

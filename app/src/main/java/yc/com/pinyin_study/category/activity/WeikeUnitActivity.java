@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.kk.utils.ScreenUtil;
 
 import java.util.List;
 
@@ -22,6 +21,7 @@ import yc.com.pinyin_study.category.contract.CategoryMainContract;
 import yc.com.pinyin_study.category.model.domain.WeiKeCategory;
 import yc.com.pinyin_study.category.presenter.CategoryMainPresenter;
 import yc.com.pinyin_study.category.utils.ItemDecorationHelper;
+import yc.com.rthttplibrary.util.ScreenUtil;
 
 /**
  * 微课单元列表

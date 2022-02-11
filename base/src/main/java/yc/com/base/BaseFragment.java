@@ -9,6 +9,7 @@ import com.hwangjr.rxbus.RxBus;
 import com.umeng.analytics.MobclickAgent;
 import com.vondear.rxtools.RxLogTool;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
@@ -29,7 +30,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
         RxBus.get().register(this);
@@ -60,12 +61,17 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart(this.getClass().getSimpleName());
+        if (!isHidden() && isResumed()) {
+            isVisibleToUser = true;
+            prepareFetchData();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+        isVisibleToUser = false;
     }
 
     @Override

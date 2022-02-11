@@ -1,27 +1,40 @@
 package yc.com.pinyin_study.base;
 
+import android.app.Activity;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
+import android.view.View;
+
+import androidx.multidex.MultiDexApplication;
 
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
-import com.kk.securityhttp.domain.GoagalInfo;
-import com.kk.securityhttp.net.contains.HttpConfig;
 import com.kk.share.UMShareImpl;
+import com.tencent.bugly.Bugly;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.analytics.game.UMGameAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.UMShareAPI;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.multidex.MultiDexApplication;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import yc.com.base.UIUtils;
+import yc.com.blankj.utilcode.util.SPUtils;
 import yc.com.blankj.utilcode.util.Utils;
 import yc.com.pinyin_study.base.constant.Config;
+import yc.com.pinyin_study.base.constant.SpConstant;
+import yc.com.pinyin_study.base.constant.UrlConfig;
+import yc.com.pinyin_study.base.utils.AssetsUtil;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
+import yc.com.rthttplibrary.config.GoagalInfo;
+import yc.com.rthttplibrary.config.HttpConfig;
+import yc.com.rthttplibrary.converter.FastJsonConverterFactory;
+import yc.com.rthttplibrary.request.RetrofitHttpRequest;
 import yc.com.toutiao_adv.TTAdManagerHolder;
 
 
@@ -30,31 +43,39 @@ import yc.com.toutiao_adv.TTAdManagerHolder;
  */
 public class EnglishStudyApp extends MultiDexApplication {
 
+    private Handler handler = new Handler();
+    public static String privacyPolicy;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         Utils.init(this);
-        Observable.just("").observeOn(Schedulers.io()).subscribe(new Action1<String>() {
-            @Override
-            public void call(String s) {
-                init();
-                SpeechUtility.createUtility(EnglishStudyApp.this, SpeechConstant.APPID + "=5bdacd35");
-            }
+        Observable.just("").observeOn(Schedulers.io()).subscribe(s -> {
+            init();
+            SpeechUtility.createUtility(EnglishStudyApp.this, SpeechConstant.APPID + "=5bdacd35");
         });
         TTAdManagerHolder.init(this, Config.TOUTIAO_AD_ID);
+        registerActivityLifecycleCallbacks(lifecycleCallbacks);
     }
 
     private void init() {
         //友盟统计
-        UMGameAgent.setDebugMode(false);
-        UMGameAgent.init(this);
-        UMGameAgent.setPlayerLevel(1);
+        UMConfigure.setLogEnabled(false);
+//        MobclickAgent.o(false);
+//        UMGameAgent.setDebugMode(false);
+//        UMGameAgent.init(this);
+//        UMGameAgent.setPlayerLevel(1);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
-
+        //初始化Bugly
+        Bugly.init(this, "05eb677bc7", false);
         //初始化友盟SDK
         UMShareAPI.get(this);//初始化sd
-        UMConfigure.init(this, Config.UMENG_KEY, "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");//58edcfeb310c93091c000be2 5965ee00734be40b580001a0
+
+        UMConfigure.preInit(this, Config.UMENG_KEY, "umeng");
+        if (SPUtils.getInstance().getBoolean(SpConstant.INDEX_DIALOG)) {
+            UMConfigure.init(this, Config.UMENG_KEY, "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");//58edcfeb310c93091c000be2 5965ee00734be40b580001a0
+        }
 //        //开启debug模式，方便定位错误，具体错误检查方式可以查看
 //        //http://dev.umeng.com/social/android/quick-integration的报错必看，正式发布，请关闭该模式
 //        UMConfigure.setLogEnabled(Constant.DEBUG)
@@ -64,9 +85,9 @@ public class EnglishStudyApp extends MultiDexApplication {
         builder.setWeixin("wx6008335a0fe5f400", "c263f08dbc2a7dc641c8c8c9367c26e1")
                 .build(this);
 
-
         //全局信息初始化
         GoagalInfo.get().init(getApplicationContext());
+
         HttpConfig.setPublickey("-----BEGIN PUBLIC KEY-----\n" +
                 "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA1zQ4FOFmngBVc05sg7X5\n" +
                 "Z/e3GrhG4rRAiGciUCsrd/n4wpQcKNoOeiRahxKT1FVcC6thJ/95OgBN8jaDzKdd\n" +
@@ -81,10 +102,15 @@ public class EnglishStudyApp extends MultiDexApplication {
                 "DmcluwXXaZXt78mwkSNtgorAhN6fXMiwRFtwywqoC3jYXlKvbh3WpsajsCsbTiCa\n" +
                 "SBq4HbSs5+QTQvmgUTPwQikCAwEAAQ==" +
                 "-----END PUBLIC KEY-----");
-        setHttpDefaultParams();
 
+        setHttpDefaultParams();
+        new RetrofitHttpRequest.Builder()
+                .url(UrlConfig.isDebug ? UrlConfig.debug_url : UrlConfig.base_url)
+                .convert(FastJsonConverterFactory.create());
         UserInfoHelper.getIndexMenuInfo(this);
         UserInfoHelper.getStudyPages(this);
+        UserInfoHelper.login(this);
+        privacyPolicy = AssetsUtil.readAsset(this, "privacy_policy.txt");
     }
 
     public void setHttpDefaultParams() {
@@ -111,5 +137,51 @@ public class EnglishStudyApp extends MultiDexApplication {
         HttpConfig.setDefaultParams(params);
     }
 
+    private ActivityLifecycleCallbacks lifecycleCallbacks = new ActivityLifecycleCallbacks() {
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity) {
+            String className = activity.getClass().getName();
+            if (TextUtils.equals("com.bytedance.sdk.openadsdk.activity.TTRewardExpressVideoActivity", className)) {
+                handler.postDelayed(() -> {
+                    View view = activity.findViewById(UIUtils.getIdentifier(activity, "tt_video_ad_close_layout"));
+                    View close = activity.findViewById(UIUtils.getIdentifier(activity, "tt_video_ad_close"));
+                    view.setVisibility(View.VISIBLE);
+                    close.setVisibility(View.VISIBLE);
+//                    Log.e(TAG, "onActivityResumed: " + view.getClass().getName());
+//                    Log.e(TAG, "onActivityResumed: " + close.getClass().getName());
+                }, 1000 * 6);
+            }
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+
+        }
+    };
 
 }

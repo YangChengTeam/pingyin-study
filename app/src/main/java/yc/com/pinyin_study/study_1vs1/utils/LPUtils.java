@@ -5,13 +5,12 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.kk.utils.LogUtil;
-
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import yc.com.rthttplibrary.util.LogUtil;
 
 
 public class LPUtils {

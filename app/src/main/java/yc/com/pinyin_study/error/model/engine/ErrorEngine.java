@@ -2,18 +2,13 @@ package yc.com.pinyin_study.error.model.engine;
 
 import android.content.Context;
 
-import com.alibaba.fastjson.TypeReference;
-import com.kk.securityhttp.domain.ResultInfo;
-import com.kk.securityhttp.engin.HttpCoreEngin;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import rx.Observable;
-import yc.com.base.BaseEngine;
-import yc.com.pinyin_study.base.constant.UrlConfig;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import yc.com.pinyin_study.base.model.engine.BaseEngine;
 import yc.com.pinyin_study.error.model.bean.ErrorInfo;
 import yc.com.pinyin_study.error.model.bean.ErrorInfoList;
+import yc.com.rthttplibrary.bean.ResultInfo;
 
 /**
  * Created by wanglin  on 2019/3/7 16:56.
@@ -25,16 +20,14 @@ public class ErrorEngine extends BaseEngine {
 
 
     public Observable<ResultInfo<ErrorInfoList>> getErrorInfoList() {
-        return HttpCoreEngin.get(mContext).rxpost(UrlConfig.error_list, new TypeReference<ResultInfo<ErrorInfoList>>() {
-        }.getType(), null, true, true, true);
+
+
+        return request.getErrorInfoList().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 
     public Observable<ResultInfo<ErrorInfo>> getErrorInfo(String id) {
-        Map<String, String> params = new HashMap<>();
-        params.put("id", id);
 
-        return HttpCoreEngin.get(mContext).rxpost(UrlConfig.error_detail_info, new TypeReference<ResultInfo<ErrorInfo>>() {
-        }.getType(), params, true, true, true);
+        return request.getErrorInfo(id).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 }

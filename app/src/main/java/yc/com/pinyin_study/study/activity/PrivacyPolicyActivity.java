@@ -1,14 +1,11 @@
 package yc.com.pinyin_study.study.activity;
 
-import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import yc.com.base.BaseActivity;
 import yc.com.pinyin_study.R;
-import yc.com.pinyin_study.base.widget.CommonWebView;
+import yc.com.pinyin_study.base.EnglishStudyApp;
 import yc.com.pinyin_study.base.widget.MainToolBar;
 
 /**
@@ -17,8 +14,8 @@ import yc.com.pinyin_study.base.widget.MainToolBar;
 public class PrivacyPolicyActivity extends BaseActivity {
     @BindView(R.id.main_toolbar)
     MainToolBar mainToolbar;
-
-
+    @BindView(R.id.tv_privacy)
+    TextView tvPrivacy;
 
 
     @Override
@@ -37,9 +34,7 @@ public class PrivacyPolicyActivity extends BaseActivity {
         mainToolbar.init(this);
         mainToolbar.setRightContainerVisible(false);
         mainToolbar.setTitle(getString(R.string.privacy_policy));
-
-
-
+        tvPrivacy.setText(EnglishStudyApp.privacyPolicy);
 
     }
 

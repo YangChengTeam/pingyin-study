@@ -7,7 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
-import com.kk.securityhttp.net.contains.HttpConfig;
+
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
@@ -29,6 +29,7 @@ import yc.com.pinyin_study.error.adapter.ErrorListAdapter;
 import yc.com.pinyin_study.error.contract.ErrorContract;
 import yc.com.pinyin_study.error.model.bean.ErrorInfo;
 import yc.com.pinyin_study.error.presenter.ErrorPresenter;
+import yc.com.rthttplibrary.config.HttpConfig;
 
 /**
  * Created by wanglin  on 2019/3/6 16:41.

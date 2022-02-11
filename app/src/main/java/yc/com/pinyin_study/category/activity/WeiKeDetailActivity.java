@@ -3,8 +3,6 @@ package yc.com.pinyin_study.category.activity;
 import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -14,13 +12,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.jakewharton.rxbinding.view.RxView;
-import com.kk.securityhttp.net.contains.HttpConfig;
 import com.xinqu.videoplayer.XinQuVideoPlayer;
 import com.xinqu.videoplayer.XinQuVideoPlayerStandard;
 
@@ -29,7 +25,6 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import rx.functions.Action1;
 import yc.com.base.BaseActivity;
 import yc.com.blankj.utilcode.util.LogUtils;
@@ -37,7 +32,6 @@ import yc.com.blankj.utilcode.util.NetworkUtils;
 import yc.com.blankj.utilcode.util.SizeUtils;
 import yc.com.pinyin_study.R;
 import yc.com.pinyin_study.base.constant.BusAction;
-import yc.com.pinyin_study.base.constant.Config;
 import yc.com.pinyin_study.base.fragment.BasePayFragment;
 import yc.com.pinyin_study.base.widget.CommonToolBar;
 import yc.com.pinyin_study.base.widget.StateView;
@@ -46,9 +40,8 @@ import yc.com.pinyin_study.category.model.domain.CourseInfo;
 import yc.com.pinyin_study.category.presenter.WeiKeDetailPresenter;
 import yc.com.pinyin_study.index.model.domain.UserInfo;
 import yc.com.pinyin_study.index.utils.UserInfoHelper;
+import yc.com.rthttplibrary.config.HttpConfig;
 import yc.com.toutiao_adv.OnAdvStateListener;
-import yc.com.toutiao_adv.TTAdDispatchManager;
-import yc.com.toutiao_adv.TTAdType;
 
 /**
  * Created by wanglin  on 2017/9/6 08:32.
@@ -200,7 +193,7 @@ public class WeiKeDetailActivity extends BaseActivity<WeiKeDetailPresenter> impl
             public void call(Void aVoid) {
                 if (currentCourseInfo != null) {
                     if (UserInfoHelper.getUserInfo() != null) {
-                        currentCourseInfo.setUserId(UserInfoHelper.getUserInfo().getUid());
+                        currentCourseInfo.setUserId(UserInfoHelper.getUid());
                         showBuyDialog();
                     }
                 }

@@ -10,8 +10,7 @@ import android.widget.TextView;
 import com.hwangjr.rxbus.RxBus;
 import com.jakewharton.rxbinding.view.RxView;
 import com.kk.share.UMShareImpl;
-import com.kk.utils.LogUtil;
-import com.kk.utils.ToastUtil;
+
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -26,6 +25,8 @@ import yc.com.pinyin_study.base.constant.BusAction;
 import yc.com.pinyin_study.base.constant.SpConstant;
 import yc.com.pinyin_study.index.model.domain.ShareInfo;
 import yc.com.pinyin_study.index.utils.ShareInfoHelper;
+import yc.com.rthttplibrary.util.LogUtil;
+import yc.com.rthttplibrary.util.ToastUtil;
 
 /**
  * Created by wanglin  on 2019/4/10 15:40.
@@ -151,7 +152,7 @@ public class ShareFragment extends BaseDialogFragment {
         public void onResult(SHARE_MEDIA share_media) {
 
             loadingView.dismiss();
-            ToastUtil.toast2(mContext, "分享成功");
+            ToastUtil.toast(mContext, "分享成功");
 
             //            RxSPTool.putBoolean(mContext, SpConstant.SHARE_SUCCESS, true);
 
@@ -171,13 +172,13 @@ public class ShareFragment extends BaseDialogFragment {
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
             loadingView.dismiss();
             LogUtil.msg("e: " + throwable.getMessage());
-            ToastUtil.toast2(mContext, "分享有误");
+            ToastUtil.toast(mContext, "分享有误");
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
             loadingView.dismiss();
-            ToastUtil.toast2(mContext, "取消分享");
+            ToastUtil.toast(mContext, "取消分享");
         }
     };
 

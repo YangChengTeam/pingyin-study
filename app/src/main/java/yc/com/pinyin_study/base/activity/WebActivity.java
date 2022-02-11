@@ -1,5 +1,7 @@
 package yc.com.pinyin_study.base.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -24,6 +26,15 @@ public class WebActivity extends BaseActivity {
 
     private String url = "http://en.upkao.com/";
 
+
+    public static void startActivity(Context context, String url, String title) {
+        Intent intent = new Intent(context, WebActivity.class);
+        intent.putExtra("url", url);
+        intent.putExtra("title", title);
+        context.startActivity(intent);
+
+    }
+
     @Override
     public boolean isStatusBarMateria() {
         return true;
@@ -36,6 +47,12 @@ public class WebActivity extends BaseActivity {
 
     @Override
     public void init() {
+
+        url = getIntent().getStringExtra("url");
+        String title = getIntent().getStringExtra("title");
+
+        mainToolbar.setTitle(title);
+
         mainToolbar.showNavigationIcon();
         mainToolbar.init(this);
         mainToolbar.setRightContainerVisible(false);
